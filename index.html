@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worship Presenter — HKBP Kamal Raya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8cb7a;
+      --gold-dim: #7a6330;
+      --cream: #f5f0e8;
+      --deep: #0d0a06;
+      --card: #1e1912;
+      --border: rgba(201,168,76,0.2);
+
+      /* KJ accent (warm gold) */
+      --kj-accent: #c9a84c;
+      --kj-accent-light: #e8cb7a;
+      --kj-accent-dim: #7a6330;
+
+      /* Buku Ende accent (cool blue-silver) */
+      --be-accent: #6b9ec4;
+      --be-accent-light: #9dc4e0;
+      --be-accent-dim: #3a5f7a;
+
+      /* Bibel accent (warm crimson-rose, kitab suci) */
+      --bb-accent: #b87979;
+      --bb-accent-light: #d9a8a8;
+      --bb-accent-dim: #6e4444;
+    }
+
+    /* ══════════════════════════════════════
+       GLOW MODE
+       ══════════════════════════════════════ */
+
+    /* Pure black background so orbs pop */
+    body.glow-mode { background: #000 !important; }
+    body.glow-mode::before { display: none; } /* kill the old subtle gradient */
+
+    /* ── Animated orbs ── */
+    @keyframes orb-float-1 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      30%      { transform: translate(40px, 30px) scale(1.06); }
+      60%      { transform: translate(-30px, 50px) scale(0.96); }
+    }
+    @keyframes orb-float-2 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      40%      { transform: translate(-50px, -40px) scale(1.1); }
+      75%      { transform: translate(30px, -20px) scale(0.93); }
+    }
+    @keyframes orb-float-3 {
+      0%,100% { transform: translate(0px, 0px) scale(1); }
+      50%      { transform: translate(45px, 55px) scale(1.08); }
+    }
+
+    .glow-orb {
+      display: none;
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.glow-mode .glow-orb { display: block; }
+
+    /* KJ — warm gold */
+    body.glow-mode.kj .glow-orb-1 {
+      width: 700px; height: 700px;
+      top: -220px; left: calc(50% - 350px);
+      background: radial-gradient(circle at center, rgba(201,168,76,0.55) 0%, rgba(201,168,76,0.18) 40%, transparent 70%);
+      filter: blur(60px);
+      animation: orb-float-1 14s ease-in-out infinite;
+    }
+    body.glow-mode.kj .glow-orb-2 {
+      width: 500px; height: 500px;
+      bottom: -120px; right: -100px;
+      background: radial-gradient(circle at center, rgba(220,140,40,0.5) 0%, rgba(220,140,40,0.15) 40%, transparent 70%);
+      filter: blur(70px);
+      animation: orb-float-2 18s ease-in-out infinite;
+    }
+    body.glow-mode.kj .glow-orb-3 {
+      width: 380px; height: 380px;
+      top: 40%; left: -80px;
+      background: radial-gradient(circle at center, rgba(255,180,50,0.35) 0%, rgba(255,180,50,0.1) 40%, transparent 70%);
+      filter: blur(55px);
+      animation: orb-float-3 22s ease-in-out infinite;
+    }
+
+    /* BE — electric blue */
+    body.glow-mode.ende .glow-orb-1 {
+      width: 700px; height: 700px;
+      top: -220px; left: calc(50% - 350px);
+      background: radial-gradient(circle at center, rgba(107,158,196,0.55) 0%, rgba(107,158,196,0.18) 40%, transparent 70%);
+      filter: blur(60px);
+      animation: orb-float-1 14s ease-in-out infinite;
+    }
+    body.glow-mode.ende .glow-orb-2 {
+      width: 500px; height: 500px;
+      bottom: -120px; right: -100px;
+      background: radial-gradient(circle at center, rgba(60,120,200,0.5) 0%, rgba(60,120,200,0.15) 40%, transparent 70%);
+      filter: blur(70px);
+      animation: orb-float-2 18s ease-in-out infinite;
+    }
+    body.glow-mode.ende .glow-orb-3 {
+      width: 380px; height: 380px;
+      top: 40%; left: -80px;
+      background: radial-gradient(circle at center, rgba(80,160,220,0.35) 0%, rgba(80,160,220,0.1) 40%, transparent 70%);
+      filter: blur(55px);
+      animation: orb-float-3 22s ease-in-out infinite;
+    }
+
+    /* Bibel — deep crimson */
+    body.glow-mode.bibel .glow-orb-1 {
+      width: 700px; height: 700px;
+      top: -220px; left: calc(50% - 350px);
+      background: radial-gradient(circle at center, rgba(200,90,90,0.55) 0%, rgba(200,90,90,0.18) 40%, transparent 70%);
+      filter: blur(60px);
+      animation: orb-float-1 14s ease-in-out infinite;
+    }
+    body.glow-mode.bibel .glow-orb-2 {
+      width: 500px; height: 500px;
+      bottom: -120px; right: -100px;
+      background: radial-gradient(circle at center, rgba(160,50,50,0.5) 0%, rgba(160,50,50,0.15) 40%, transparent 70%);
+      filter: blur(70px);
+      animation: orb-float-2 18s ease-in-out infinite;
+    }
+    body.glow-mode.bibel .glow-orb-3 {
+      width: 380px; height: 380px;
+      top: 40%; left: -80px;
+      background: radial-gradient(circle at center, rgba(220,80,80,0.35) 0%, rgba(220,80,80,0.1) 40%, transparent 70%);
+      filter: blur(55px);
+      animation: orb-float-3 22s ease-in-out infinite;
+    }
+
+    /* ── Cards: glassmorphism ── */
+    body.glow-mode .verse-card {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    body.glow-mode.kj   .verse-card:hover  { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.3); box-shadow: 0 0 30px rgba(201,168,76,0.18), 0 4px 24px rgba(0,0,0,0.5); }
+    body.glow-mode.ende .verse-card:hover  { background: rgba(107,158,196,0.06); border-color: rgba(107,158,196,0.3); box-shadow: 0 0 30px rgba(107,158,196,0.18), 0 4px 24px rgba(0,0,0,0.5); }
+    body.glow-mode.bibel .verse-card:hover { background: rgba(200,90,90,0.06); border-color: rgba(200,90,90,0.3); box-shadow: 0 0 30px rgba(200,90,90,0.18), 0 4px 24px rgba(0,0,0,0.5); }
+
+    body.glow-mode.kj   .verse-card.active { background: rgba(201,168,76,0.09); border-color: rgba(201,168,76,0.6); box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.12); }
+    body.glow-mode.ende .verse-card.active { background: rgba(107,158,196,0.09); border-color: rgba(107,158,196,0.6); box-shadow: 0 0 40px rgba(107,158,196,0.3), 0 0 80px rgba(107,158,196,0.12); }
+    body.glow-mode.bibel .verse-card.active { background: rgba(200,90,90,0.09); border-color: rgba(200,90,90,0.6); box-shadow: 0 0 40px rgba(200,90,90,0.3), 0 0 80px rgba(200,90,90,0.12); }
+
+    /* Reff glass */
+    body.glow-mode .verse-card.reff-card { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
+    body.glow-mode.kj   .verse-card.reff-card { border-color: rgba(201,168,76,0.2); }
+    body.glow-mode.ende .verse-card.reff-card { border-color: rgba(107,158,196,0.2); }
+
+    /* ── Header frosted ── */
+    body.glow-mode header {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── Text glow on title ── */
+    body.glow-mode .song-title {
+      text-shadow: 0 0 20px rgba(201,168,76,0.7), 0 0 60px rgba(201,168,76,0.3);
+    }
+    body.glow-mode.ende  .song-title { text-shadow: 0 0 20px rgba(107,158,196,0.7), 0 0 60px rgba(107,158,196,0.3); }
+    body.glow-mode.bibel .song-title { text-shadow: 0 0 20px rgba(200,90,90,0.7), 0 0 60px rgba(200,90,90,0.3); }
+
+    body.glow-mode .song-number {
+      text-shadow: 0 0 12px currentColor;
+    }
+
+    /* ── Fullscreen glow ── */
+    .fullscreen.glow-active { background: #000 !important; }
+
+    .fullscreen.glow-active .fs-line {
+      text-shadow:
+        0 0 15px rgba(201,168,76,0.9),
+        0 0 40px rgba(201,168,76,0.55),
+        0 0 80px rgba(201,168,76,0.25);
+    }
+    .fullscreen.glow-active.ende-mode .fs-line {
+      text-shadow:
+        0 0 15px rgba(107,158,196,0.9),
+        0 0 40px rgba(107,158,196,0.55),
+        0 0 80px rgba(107,158,196,0.25);
+    }
+    .fullscreen.glow-active.bibel-mode .fs-line {
+      text-shadow:
+        0 0 15px rgba(200,90,90,0.9),
+        0 0 40px rgba(200,90,90,0.55),
+        0 0 80px rgba(200,90,90,0.25);
+    }
+    .fullscreen.glow-active.is-reff .fs-line {
+      text-shadow:
+        0 0 15px rgba(232,203,122,1),
+        0 0 40px rgba(232,203,122,0.7),
+        0 0 100px rgba(232,203,122,0.35);
+    }
+    .fullscreen.glow-active .fs-verse-num {
+      text-shadow: 0 0 10px currentColor;
+    }
+    /* Bible ayat glow */
+    .fullscreen.glow-active .fs-bibel-verse {
+      text-shadow:
+        0 0 15px rgba(184,121,121,0.8),
+        0 0 40px rgba(184,121,121,0.4);
+    }
+
+    /* ── GLOW TOGGLE BUTTON ── */
+    .glow-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 200;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px 7px 10px;
+      transition: all 0.3s;
+      backdrop-filter: blur(8px);
+    }
+
+    .glow-toggle:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.06); }
+    body.glow-mode .glow-toggle { border-color: var(--gold); box-shadow: 0 0 16px rgba(201,168,76,0.2); }
+
+    .glow-toggle-track {
+      width: 32px; height: 18px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 9px;
+      position: relative;
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+    body.glow-mode .glow-toggle-track { background: rgba(201,168,76,0.4); }
+    body.glow-mode.ende .glow-toggle-track { background: rgba(107,158,196,0.4); }
+    body.glow-mode.bibel .glow-toggle-track { background: rgba(184,121,121,0.4); }
+
+    .glow-toggle-thumb {
+      width: 12px; height: 12px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      position: absolute;
+      top: 3px; left: 3px;
+      transition: transform 0.3s, background 0.3s;
+    }
+    body.glow-mode .glow-toggle-thumb { transform: translateX(14px); background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+    body.glow-mode.ende  .glow-toggle-thumb { background: var(--be-accent); box-shadow: 0 0 8px var(--be-accent); }
+    body.glow-mode.bibel .glow-toggle-thumb { background: var(--bb-accent); box-shadow: 0 0 8px var(--bb-accent); }
+
+    .glow-toggle-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(201,168,76,0.5);
+      text-transform: uppercase;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+    body.glow-mode .glow-toggle-label { color: var(--gold); }
+    body.glow-mode.ende .glow-toggle-label { color: var(--be-accent); }
+    body.glow-mode.bibel .glow-toggle-label { color: var(--bb-accent); }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--deep);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(201,168,76,0.04) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      transition: background 0.6s;
+    }
+
+    body.ende::before {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(107,158,196,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(107,158,196,0.04) 0%, transparent 60%);
+    }
+
+    body.bibel::before {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184,121,121,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(184,121,121,0.04) 0%, transparent 60%);
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 960px;
+      padding: 44px 40px 28px;
+      text-align: center;
+    }
+
+    .logo-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .logo-line .divider {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+      max-width: 100px;
+    }
+
+    .logo-text {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+
+    /* ── Mode Switcher (KJ / BE / Bibel) ── */
+    .book-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+
+    .book-btn {
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold-dim);
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      padding: 10px 28px;
+      text-transform: uppercase;
+      transition: all 0.25s;
+      line-height: 1.4;
+    }
+
+    .book-btn:first-child { border-radius: 4px 0 0 4px; border-right: none; }
+    .book-btn:last-child  { border-radius: 0 4px 4px 0; }
+    .book-btn:not(:first-child):not(:last-child) { border-right: none; }
+
+    .book-btn .book-short { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 2px; }
+    .book-btn .book-long  { display: block; font-size: 8px; letter-spacing: 0.25em; opacity: 0.7; }
+
+    /* KJ active */
+    .book-btn.kj.active {
+      background: rgba(201,168,76,0.14);
+      border-color: var(--kj-accent);
+      color: var(--kj-accent-light);
+    }
+
+    /* Ende active */
+    .book-btn.ende.active {
+      background: rgba(107,158,196,0.14);
+      border-color: var(--be-accent);
+      color: var(--be-accent-light);
+    }
+
+    /* Bibel active */
+    .book-btn.bibel.active {
+      background: rgba(184,121,121,0.14);
+      border-color: var(--bb-accent);
+      color: var(--bb-accent-light);
+    }
+
+    .book-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(201,168,76,0.4);
+      color: var(--gold-dim);
+    }
+
+    /* ── Search area (song mode) ── */
+    .search-area {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-area.hidden { display: none; }
+
+    .label {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    body.ende .label { color: var(--be-accent-dim); }
+    body.bibel .label { color: var(--bb-accent-dim); }
+
+    .song-input {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      padding: 10px 16px;
+      width: 100px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s, color 0.3s;
+    }
+
+    .song-input:focus { border-color: var(--gold); }
+    body.ende .song-input { color: var(--be-accent-light); }
+    body.ende .song-input:focus { border-color: var(--be-accent); }
+
+    .fetch-btn {
+      background: transparent;
+      border: 1px solid var(--gold-dim);
+      border-radius: 4px;
+      color: var(--gold);
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      padding: 11px 22px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .fetch-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+    body.ende .fetch-btn { border-color: var(--be-accent-dim); color: var(--be-accent); }
+    body.ende .fetch-btn:hover { background: rgba(107,158,196,0.1); border-color: var(--be-accent); }
+    body.bibel .fetch-btn { border-color: var(--bb-accent-dim); color: var(--bb-accent); }
+    body.bibel .fetch-btn:hover { background: rgba(184,121,121,0.1); border-color: var(--bb-accent); }
+
+    /* ── Bibel-specific search area ── */
+    .bibel-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bibel-area.show { display: flex; }
+
+    .lang-toggle {
+      display: flex;
+      gap: 0;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--bb-accent-dim);
+      color: var(--bb-accent-dim);
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      padding: 7px 18px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .lang-btn:first-child { border-radius: 3px 0 0 3px; border-right: none; }
+    .lang-btn:last-child  { border-radius: 0 3px 3px 0; }
+    .lang-btn.active {
+      background: rgba(184,121,121,0.18);
+      border-color: var(--bb-accent);
+      color: var(--bb-accent-light);
+    }
+    .lang-btn:hover:not(.active) {
+      background: rgba(255,255,255,0.04);
+      color: var(--bb-accent);
+    }
+
+    .bibel-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .book-select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--bb-accent-light);
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      padding: 10px 14px;
+      min-width: 220px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .book-select:focus { border-color: var(--bb-accent); }
+    .book-select option { background: var(--card); color: var(--cream); }
+
+    .verse-input {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--bb-accent-light);
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      width: 130px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .verse-input:focus { border-color: var(--bb-accent); }
+    .verse-input::placeholder { color: var(--bb-accent-dim); opacity: 0.6; }
+
+    .hint-text {
+      font-size: 11px;
+      color: var(--bb-accent-dim);
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    /* ── Main ── */
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 960px;
+      padding: 0 40px 80px;
+    }
+
+    /* ── Song / Bibel title area ── */
+    .song-title-area {
+      text-align: center;
+      margin-bottom: 44px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .song-title-area.visible { opacity: 1; transform: translateY(0); }
+
+    .book-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      padding: 3px 12px;
+      border-radius: 3px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .book-badge.kj    { color: var(--kj-accent);  border: 1px solid rgba(201,168,76,0.3); }
+    .book-badge.ende  { color: var(--be-accent);  border: 1px solid rgba(107,158,196,0.3); }
+    .book-badge.bibel { color: var(--bb-accent);  border: 1px solid rgba(184,121,121,0.3); }
+
+    .song-number {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+
+    body.ende  .song-number { color: var(--be-accent); }
+    body.bibel .song-number { color: var(--bb-accent); }
+
+    .song-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(20px, 3.5vw, 34px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .tonalitas {
+      font-size: 13px;
+      color: var(--gold-dim);
+      font-style: italic;
+    }
+
+    body.bibel .tonalitas { color: var(--bb-accent-dim); }
+
+    .title-divider {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 18px auto 0;
+      opacity: 0.5;
+      transition: background 0.3s;
+    }
+
+    body.ende  .title-divider { background: var(--be-accent); }
+    body.bibel .title-divider { background: var(--bb-accent); }
+
+    /* ── Verse cards ── */
+    .verses-grid { display: grid; gap: 20px; }
+
+    .verse-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 26px 34px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s, transform 0.5s, border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .verse-card.visible { opacity: 1; transform: translateY(0); }
+
+    .verse-card:hover { border-color: rgba(201,168,76,0.45); background: #221e14; }
+    body.ende  .verse-card:hover { border-color: rgba(107,158,196,0.4); background: #121820; }
+    body.bibel .verse-card:hover { border-color: rgba(184,121,121,0.4); background: #1f1414; }
+
+    .verse-card.active { border-color: var(--gold); background: #1e1a0f; }
+    body.ende  .verse-card.active { border-color: var(--be-accent); background: #101820; }
+    body.bibel .verse-card.active { border-color: var(--bb-accent); background: #20100f; }
+
+    .verse-card.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 3px;
+      background: var(--gold);
+      border-radius: 0 2px 2px 0;
+      transition: background 0.3s;
+    }
+
+    body.ende  .verse-card.active::before { background: var(--be-accent); }
+    body.bibel .verse-card.active::before { background: var(--bb-accent); }
+
+    /* Reff variant (song mode) */
+    .verse-card.reff-card { border-color: rgba(201,168,76,0.32); background: #1a1710; }
+    body.ende .verse-card.reff-card { border-color: rgba(107,158,196,0.3); background: #111720; }
+    .verse-card.reff-card .verse-number { color: var(--gold); }
+    body.ende .verse-card.reff-card .verse-number { color: var(--be-accent); }
+    .verse-card.reff-card .verse-line { color: var(--gold-light) !important; font-style: italic; }
+    body.ende .verse-card.reff-card .verse-line { color: var(--be-accent-light) !important; font-style: italic; }
+    .verse-card.reff-card.active { border-color: var(--gold-light); background: #241f0f; }
+    body.ende .verse-card.reff-card.active { border-color: var(--be-accent-light); background: #121c28; }
+    .verse-card.reff-card.active::before { background: var(--gold-light); }
+    body.ende .verse-card.reff-card.active::before { background: var(--be-accent-light); }
+
+    /* Title-card variant (perikop) */
+    .verse-card.title-card {
+      background: transparent;
+      border: none;
+      padding: 16px 8px 4px;
+      cursor: default;
+      text-align: center;
+    }
+    .verse-card.title-card:hover { background: transparent; border: none; }
+    .verse-card.title-card .perikop-text {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      color: var(--bb-accent-light);
+      text-transform: uppercase;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .verse-number {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      transition: color 0.3s;
+    }
+
+    body.ende  .verse-number { color: var(--be-accent-dim); }
+    body.bibel .verse-number { color: var(--bb-accent-dim); }
+
+    .verse-lines { list-style: none; }
+
+    .verse-line {
+      font-size: clamp(15px, 2vw, 20px);
+      line-height: 1.9;
+      color: var(--cream);
+    }
+
+    .verse-line:nth-child(even) { color: rgba(245,240,232,0.72); }
+    .verse-card.active .verse-line { color: var(--cream) !important; }
+
+    /* Bibel-specific verse rendering (ayat + nomor inline) */
+    .bibel-verse {
+      font-size: clamp(15px, 2vw, 20px);
+      line-height: 1.95;
+      color: var(--cream);
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+    .bibel-verse:last-child { margin-bottom: 0; }
+    .bibel-verse-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7em;
+      color: var(--bb-accent);
+      font-weight: 700;
+      margin-right: 6px;
+      vertical-align: super;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Present button ── */
+    .present-btn {
+      display: none;
+      margin: 26px auto 0;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--gold-dim);
+      border-radius: 4px;
+      color: var(--gold);
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      padding: 13px 32px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .present-btn:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+    body.ende .present-btn { background: rgba(107,158,196,0.08); border-color: var(--be-accent-dim); color: var(--be-accent); }
+    body.ende .present-btn:hover { background: rgba(107,158,196,0.15); border-color: var(--be-accent); }
+    body.bibel .present-btn { background: rgba(184,121,121,0.08); border-color: var(--bb-accent-dim); color: var(--bb-accent); }
+    body.bibel .present-btn:hover { background: rgba(184,121,121,0.15); border-color: var(--bb-accent); }
+    .present-btn.show { display: block; }
+
+    .kb-hint {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(201,168,76,0.22);
+      margin-top: 12px;
+    }
+
+    /* ── Status ── */
+    .status {
+      text-align: center;
+      font-style: italic;
+      color: var(--gold-dim);
+      font-size: 16px;
+      padding: 48px 0;
+      display: none;
+    }
+
+    .status.show { display: block; }
+    .status.error { color: #c05050; font-style: normal; }
+
+    .spinner {
+      width: 26px; height: 26px;
+      border: 2px solid rgba(201,168,76,0.18);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Fullscreen ── */
+    .fullscreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #050402;
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 80px;
+    }
+
+    .fullscreen.open { display: flex; }
+
+    .fs-book {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.45em;
+      color: rgba(201,168,76,0.25);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .fullscreen.ende-mode  .fs-book { color: rgba(107,158,196,0.3); }
+    .fullscreen.bibel-mode .fs-book { color: rgba(184,121,121,0.3); }
+
+    .fs-verse-num {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.38em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+
+    .fullscreen.ende-mode  .fs-verse-num { color: var(--be-accent-dim); }
+    .fullscreen.bibel-mode .fs-verse-num { color: var(--bb-accent-dim); }
+
+    .fs-lines { text-align: center; list-style: none; max-width: 1400px; }
+
+    .fs-line {
+      font-size: clamp(18px, 2.8vw, 38px);
+      line-height: 1.9;
+      color: var(--cream);
+      letter-spacing: 0.015em;
+    }
+
+    .fullscreen.is-reff .fs-line { color: var(--gold-light); font-style: italic; }
+    .fullscreen.ende-mode.is-reff .fs-line { color: var(--be-accent-light); }
+
+    /* Bibel fullscreen: blok ayat dengan superscript */
+    .fs-bibel-verse {
+      font-size: clamp(18px, 2.6vw, 34px);
+      line-height: 1.85;
+      color: var(--cream);
+      margin-bottom: 18px;
+      text-align: center;
+      max-width: 1300px;
+    }
+    .fs-bibel-verse:last-child { margin-bottom: 0; }
+    .fs-bibel-verse-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55em;
+      color: var(--bb-accent-light);
+      font-weight: 700;
+      margin-right: 8px;
+      vertical-align: super;
+      letter-spacing: 0.05em;
+    }
+
+    .fs-hint {
+      position: fixed;
+      bottom: 24px;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: rgba(201,168,76,0.2);
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    .fs-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(201,168,76,0.05);
+      border: 1px solid rgba(201,168,76,0.1);
+      color: rgba(201,168,76,0.3);
+      font-size: 28px;
+      width: 48px; height: 88px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .fs-nav:hover { background: rgba(201,168,76,0.12); color: var(--gold); }
+    .fs-prev { left: 0; border-radius: 0 6px 6px 0; }
+    .fs-next { right: 0; border-radius: 6px 0 0 6px; }
+
+    @media (max-width: 620px) {
+      header, main { padding-left: 18px; padding-right: 18px; }
+      .verse-card { padding: 20px 18px; }
+      .search-area { flex-wrap: wrap; }
+      .fullscreen { padding: 40px 20px; }
+      .book-select { min-width: 180px; }
+    }
+  </style>
+</head>
+<body class="kj">
+
+<!-- Glow orbs (shown only in glow-mode) -->
+<div class="glow-orb glow-orb-1"></div>
+<div class="glow-orb glow-orb-2"></div>
+<div class="glow-orb glow-orb-3"></div>
+
+<!-- Glow toggle -->
+<button class="glow-toggle" id="glowToggle" title="Toggle Glow Mode">
+  <div class="glow-toggle-track">
+    <div class="glow-toggle-thumb"></div>
+  </div>
+  <span class="glow-toggle-label">Glow</span>
+</button>
+
+<header>
+  <div class="logo-line">
+    <div class="divider"></div>
+    <span class="logo-text">HKBP Kamal Raya Ressort Kamal Raya</span>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Mode Switcher -->
+  <div class="book-switcher">
+    <button class="book-btn kj active" id="btnKJ" onclick="switchMode('kj')">
+      <span class="book-short">KJ</span>
+      <span class="book-long">Kidung Jemaat</span>
+    </button>
+    <button class="book-btn ende" id="btnEnde" onclick="switchMode('ende')">
+      <span class="book-short">BE</span>
+      <span class="book-long">Buku Ende</span>
+    </button>
+    <button class="book-btn bibel" id="btnBibel" onclick="switchMode('bibel')">
+      <span class="book-short">Bibel</span>
+      <span class="book-long">Alkitab</span>
+    </button>
+  </div>
+
+  <!-- Search: song mode (KJ / BE) -->
+  <div class="search-area" id="songSearch">
+    <span class="label" id="labelBook">KJ No.</span>
+    <input class="song-input" id="songInput" type="number" min="1" value="13" />
+    <button class="fetch-btn" id="fetchBtn">Tampilkan</button>
+  </div>
+
+  <!-- Search: Bibel mode -->
+  <div class="bibel-area" id="bibelSearch">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="langToba" onclick="switchLang('toba')">Toba</button>
+      <button class="lang-btn" id="langTb" onclick="switchLang('tb')">Indonesia</button>
+    </div>
+    <div class="bibel-row">
+      <select class="book-select" id="bookSelect"></select>
+      <input class="verse-input" id="verseInput" type="text" placeholder="1:1-5 atau 1" value="1:1-5" />
+      <button class="fetch-btn" id="bibelFetchBtn">Tampilkan</button>
+    </div>
+    <div class="hint-text">Contoh: <b>1:1</b> · <b>1:1-5</b> · <b>1</b> (satu pasal penuh)</div>
+  </div>
+</header>
+
+<main>
+  <div class="status" id="status">
+    <div class="spinner"></div>
+    Memuat lirik...
+  </div>
+
+  <div class="song-title-area" id="titleArea">
+    <div class="book-badge kj" id="bookBadge">Kidung Jemaat</div>
+    <div class="song-number" id="songNumber"></div>
+    <div class="song-title" id="songTitle"></div>
+    <div class="tonalitas" id="tonalitas"></div>
+    <div class="title-divider"></div>
+  </div>
+
+  <div class="verses-grid" id="versesGrid"></div>
+
+  <button class="present-btn" id="presentBtn">⛪ Tampilkan Penuh</button>
+  <div class="kb-hint" id="kbHint" style="display:none">
+    Klik bait untuk memilih · Tekan F untuk layar penuh · ← → untuk navigasi
+  </div>
+</main>
+
+<!-- Fullscreen overlay -->
+<div class="fullscreen" id="fullscreen">
+  <div class="fs-book" id="fsBook"></div>
+  <div class="fs-verse-num" id="fsVerseNum"></div>
+  <ul class="fs-lines" id="fsLines"></ul>
+  <button class="fs-nav fs-prev" id="fsPrev">‹</button>
+  <button class="fs-nav fs-next" id="fsNext">›</button>
+  <div class="fs-hint">Esc untuk tutup · ← → navigasi</div>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────────
+  // CONFIG
+  // ─────────────────────────────────────────────────────────────────
+  const BOOKS = {
+    kj:   { api: 'https://api.hkbp.or.id/api/v1/kidung-jemaat/songs/', label: 'KJ', full: 'Kidung Jemaat', inputLabel: 'KJ No.' },
+    ende: { api: 'https://api.hkbp.or.id/api/v1/buku-ende/songs/',     label: 'BE', full: 'Buku Ende',     inputLabel: 'BE No.' },
+  };
+
+  const BIBEL_API = 'https://cdn.jsdelivr.net/gh/pandapotan/ktb@main/bib';
+
+  // 66 kitab Alkitab.
+  // Format: [namaBatak (untuk URL Toba), namaIndonesia (untuk URL TB & display)]
+  // PERHATIAN: untuk endpoint Toba, slug URL pakai nama Indonesia (sesuai contoh:
+  //   .../bib/toba/book/Hakim-hakim/1.json). Jadi `tbName` dipakai untuk SEMUA URL.
+  //   `tobaLabel` hanya untuk display saat bahasa = Toba.
+  const BIBLE_BOOKS = [
+    // Perjanjian Lama
+    { tobaLabel: '1 Musa',              tbName: 'Kejadian' },
+    { tobaLabel: '2 Musa',              tbName: 'Keluaran' },
+    { tobaLabel: '3 Musa',              tbName: 'Imamat' },
+    { tobaLabel: '4 Musa',              tbName: 'Bilangan' },
+    { tobaLabel: '5 Musa',              tbName: 'Ulangan' },
+    { tobaLabel: 'Josua',               tbName: 'Yosua' },
+    { tobaLabel: 'Hakim-hakim',         tbName: 'Hakim-hakim' },
+    { tobaLabel: 'Rut',                 tbName: 'Rut' },
+    { tobaLabel: '1 Angka Raja',        tbName: '1 Samuel' },
+    { tobaLabel: '2 Angka Raja',        tbName: '2 Samuel' },
+    { tobaLabel: '3 Angka Raja',        tbName: '1 Raja-raja' },
+    { tobaLabel: '4 Angka Raja',        tbName: '2 Raja-raja' },
+    { tobaLabel: '5 Angka Raja',        tbName: '1 Tawarikh' },
+    { tobaLabel: '6 Angka Raja',        tbName: '2 Tawarikh' },
+    { tobaLabel: 'Esra',                tbName: 'Ezra' },
+    { tobaLabel: 'Nehemia',             tbName: 'Nehemia' },
+    { tobaLabel: 'Ester',               tbName: 'Ester' },
+    { tobaLabel: 'Job',                 tbName: 'Ayub' },
+    { tobaLabel: 'Psalmen',             tbName: 'Mazmur' },
+    { tobaLabel: 'Poda',                tbName: 'Amsal' },
+    { tobaLabel: 'Parjamita',           tbName: 'Pengkhotbah' },
+    { tobaLabel: 'Ende ni angka Ende',  tbName: 'Kidung Agung' },
+    { tobaLabel: 'Jesaya',              tbName: 'Yesaya' },
+    { tobaLabel: 'Jeremia',             tbName: 'Yeremia' },
+    { tobaLabel: 'Andung-andung',       tbName: 'Ratapan' },
+    { tobaLabel: 'Hesekiel',            tbName: 'Yehezkiel' },
+    { tobaLabel: 'Daniel',              tbName: 'Daniel' },
+    { tobaLabel: 'Hosea',               tbName: 'Hosea' },
+    { tobaLabel: 'Joel',                tbName: 'Yoel' },
+    { tobaLabel: 'Amos',                tbName: 'Amos' },
+    { tobaLabel: 'Obaja',               tbName: 'Obaja' },
+    { tobaLabel: 'Jona',                tbName: 'Yunus' },
+    { tobaLabel: 'Mika',                tbName: 'Mikha' },
+    { tobaLabel: 'Nahum',               tbName: 'Nahum' },
+    { tobaLabel: 'Habakuk',             tbName: 'Habakuk' },
+    { tobaLabel: 'Zepanya',             tbName: 'Zefanya' },
+    { tobaLabel: 'Hagai',               tbName: 'Hagai' },
+    { tobaLabel: 'Sakaria',             tbName: 'Zakharia' },
+    { tobaLabel: 'Maleaki',             tbName: 'Maleakhi' },
+    // Perjanjian Baru
+    { tobaLabel: 'Mateus',              tbName: 'Matius' },
+    { tobaLabel: 'Markus',              tbName: 'Markus' },
+    { tobaLabel: 'Lukas',               tbName: 'Lukas' },
+    { tobaLabel: 'Johannes',            tbName: 'Yohanes' },
+    { tobaLabel: 'Ulaon ni angka Apostel', tbName: 'Kisah Para Rasul' },
+    { tobaLabel: 'Rom',                 tbName: 'Roma' },
+    { tobaLabel: '1 Korint',            tbName: '1 Korintus' },
+    { tobaLabel: '2 Korint',            tbName: '2 Korintus' },
+    { tobaLabel: 'Galatia',             tbName: 'Galatia' },
+    { tobaLabel: 'Epesus',              tbName: 'Efesus' },
+    { tobaLabel: 'Pilippi',             tbName: 'Filipi' },
+    { tobaLabel: 'Kolosse',             tbName: 'Kolose' },
+    { tobaLabel: '1 Tessalonik',        tbName: '1 Tesalonika' },
+    { tobaLabel: '2 Tessalonik',        tbName: '2 Tesalonika' },
+    { tobaLabel: '1 Timoteus',          tbName: '1 Timotius' },
+    { tobaLabel: '2 Timoteus',          tbName: '2 Timotius' },
+    { tobaLabel: 'Titus',               tbName: 'Titus' },
+    { tobaLabel: 'Pilemon',             tbName: 'Filemon' },
+    { tobaLabel: 'Heber',               tbName: 'Ibrani' },
+    { tobaLabel: 'Jakobus',             tbName: 'Yakobus' },
+    { tobaLabel: '1 Petrus',            tbName: '1 Petrus' },
+    { tobaLabel: '2 Petrus',            tbName: '2 Petrus' },
+    { tobaLabel: '1 Johannes',          tbName: '1 Yohanes' },
+    { tobaLabel: '2 Johannes',          tbName: '2 Yohanes' },
+    { tobaLabel: '3 Johannes',          tbName: '3 Yohanes' },
+    { tobaLabel: 'Judas',               tbName: 'Yudas' },
+    { tobaLabel: 'Pangungkapon',        tbName: 'Wahyu' },
+  ];
+
+  const VERSES_PER_SLIDE = 3; // saat fullscreen Bibel
+
+  // ─────────────────────────────────────────────────────────────────
+  // STATE
+  // ─────────────────────────────────────────────────────────────────
+  let currentMode  = 'kj';      // 'kj' | 'ende' | 'bibel'
+  let currentLang  = 'toba';    // 'toba' | 'tb' (hanya untuk Bibel)
+  let verses       = [];        // untuk KJ/BE: array bait. Untuk Bibel: array slide-group
+  let currentVerse = 0;
+
+  // Cache & abort
+  const cache = new Map();
+  let activeController = null;
+
+  // ─────────────────────────────────────────────────────────────────
+  // DOM refs
+  // ─────────────────────────────────────────────────────────────────
+  const body         = document.body;
+  const songSearch   = document.getElementById('songSearch');
+  const bibelSearch  = document.getElementById('bibelSearch');
+  const songInput    = document.getElementById('songInput');
+  const fetchBtn     = document.getElementById('fetchBtn');
+  const bibelFetchBtn= document.getElementById('bibelFetchBtn');
+  const bookSelect   = document.getElementById('bookSelect');
+  const verseInput   = document.getElementById('verseInput');
+  const langToba     = document.getElementById('langToba');
+  const langTb       = document.getElementById('langTb');
+  const status       = document.getElementById('status');
+  const titleArea    = document.getElementById('titleArea');
+  const bookBadge    = document.getElementById('bookBadge');
+  const songNumber   = document.getElementById('songNumber');
+  const songTitle    = document.getElementById('songTitle');
+  const tonalitas    = document.getElementById('tonalitas');
+  const versesGrid   = document.getElementById('versesGrid');
+  const presentBtn   = document.getElementById('presentBtn');
+  const kbHint       = document.getElementById('kbHint');
+  const fullscreen   = document.getElementById('fullscreen');
+  const fsBook       = document.getElementById('fsBook');
+  const fsVerseNum   = document.getElementById('fsVerseNum');
+  const fsLines      = document.getElementById('fsLines');
+  const fsPrev       = document.getElementById('fsPrev');
+  const fsNext       = document.getElementById('fsNext');
+  const labelBook    = document.getElementById('labelBook');
+  const btnKJ        = document.getElementById('btnKJ');
+  const btnEnde      = document.getElementById('btnEnde');
+  const btnBibel     = document.getElementById('btnBibel');
+
+  // ─────────────────────────────────────────────────────────────────
+  // INIT: populate book select
+  // ─────────────────────────────────────────────────────────────────
+  function populateBookSelect() {
+    bookSelect.innerHTML = '';
+    BIBLE_BOOKS.forEach((b, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${b.tobaLabel}  —  ${b.tbName}`;
+      bookSelect.appendChild(opt);
+    });
+  }
+  populateBookSelect();
+
+  // ─────────────────────────────────────────────────────────────────
+  // MODE SWITCHER (KJ / BE / Bibel)
+  // ─────────────────────────────────────────────────────────────────
+  function switchMode(mode) {
+    if (currentMode === mode) return;
+    currentMode = mode;
+
+    body.classList.toggle('kj',    mode === 'kj');
+    body.classList.toggle('ende',  mode === 'ende');
+    body.classList.toggle('bibel', mode === 'bibel');
+
+    btnKJ.classList.toggle('active',    mode === 'kj');
+    btnEnde.classList.toggle('active',  mode === 'ende');
+    btnBibel.classList.toggle('active', mode === 'bibel');
+
+    // Show/hide search areas
+    if (mode === 'bibel') {
+      songSearch.classList.add('hidden');
+      bibelSearch.classList.add('show');
+    } else {
+      songSearch.classList.remove('hidden');
+      bibelSearch.classList.remove('show');
+      labelBook.textContent = BOOKS[mode].inputLabel;
+    }
+
+    // Reset display
+    resetDisplay();
+  }
+
+  function switchLang(lang) {
+    if (currentLang === lang) return;
+    currentLang = lang;
+    langToba.classList.toggle('active', lang === 'toba');
+    langTb.classList.toggle('active',   lang === 'tb');
+  }
+
+  function resetDisplay() {
+    titleArea.classList.remove('visible');
+    versesGrid.innerHTML = '';
+    presentBtn.classList.remove('show');
+    kbHint.style.display = 'none';
+    status.className = 'status';
+    verses = [];
+    currentVerse = 0;
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // STATUS HELPERS
+  // ─────────────────────────────────────────────────────────────────
+  function showStatus(msg, isError = false) {
+    status.innerHTML = isError ? msg : `<div class="spinner"></div>${msg}`;
+    status.className = 'status show' + (isError ? ' error' : '');
+  }
+
+  function hideStatus() { status.className = 'status'; }
+
+  // ─────────────────────────────────────────────────────────────────
+  // FETCH WITH CACHE & ABORT
+  // ─────────────────────────────────────────────────────────────────
+  async function fetchJSON(url) {
+    if (cache.has(url)) return cache.get(url);
+    activeController?.abort();
+    activeController = new AbortController();
+    const res = await fetch(url, { signal: activeController.signal });
+    if (!res.ok) throw new Error(`Tidak ditemukan (${res.status})`);
+    const data = await res.json();
+    cache.set(url, data);
+    return data;
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // SONG MODE (KJ / BE)
+  // ─────────────────────────────────────────────────────────────────
+  function buildVerseOrder(raw) {
+    const reff      = raw.find(v => v.type === 'reff') || null;
+    const verseOnly = raw.filter(v => v.type !== 'reff');
+    if (!verseOnly.length) return raw;
+    const result = [];
+    verseOnly.forEach(v => {
+      result.push(v);
+      if (reff) result.push({ ...reff });
+    });
+    return result;
+  }
+
+  async function fetchSong() {
+    const num = parseInt(songInput.value, 10);
+    if (!num || num < 1) { showStatus('Nomor lagu tidak valid', true); return; }
+
+    resetDisplay();
+    showStatus('Memuat lirik...');
+
+    const book = BOOKS[currentMode];
+
+    try {
+      const data = await fetchJSON(book.api + num);
+
+      // Title area
+      bookBadge.className = `book-badge ${currentMode}`;
+      bookBadge.textContent = book.full;
+      songNumber.textContent = `${book.label} ${data.nomorLagu}`;
+      songTitle.textContent  = data.judul || `${book.label} ${data.nomorLagu}`;
+      tonalitas.textContent  = data.tonalitas ? `Nada dasar: ${data.tonalitas}` : '';
+
+      const raw = (data.lirik || []).filter(v => v.lines && v.lines.length);
+      if (!raw.length) throw new Error('Lirik tidak tersedia untuk lagu ini.');
+
+      verses = buildVerseOrder(raw);
+      hideStatus();
+      setTimeout(() => titleArea.classList.add('visible'), 50);
+
+      renderSongCards();
+      presentBtn.classList.add('show');
+      kbHint.style.display = 'block';
+
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      showStatus(err.message, true);
+    }
+  }
+
+  function renderSongCards() {
+    let verseCounter = 0;
+    verses.forEach((verse, i) => {
+      const isReff = verse.type === 'reff';
+      if (!isReff) verseCounter++;
+
+      const card = document.createElement('div');
+      card.className = 'verse-card' + (isReff ? ' reff-card' : '');
+      card.dataset.index = i;
+
+      const label = document.createElement('div');
+      label.className = 'verse-number';
+      label.textContent = isReff ? 'Refrein' : `Bait ${verseCounter}`;
+
+      const ul = document.createElement('ul');
+      ul.className = 'verse-lines';
+      verse.lines.forEach(line => {
+        const li = document.createElement('li');
+        li.className = 'verse-line';
+        li.textContent = line;
+        ul.appendChild(li);
+      });
+
+      card.appendChild(label);
+      card.appendChild(ul);
+      versesGrid.appendChild(card);
+
+      setTimeout(() => card.classList.add('visible'), 100 + i * 70);
+
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.verse-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentVerse = i;
+      });
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // BIBEL MODE
+  // ─────────────────────────────────────────────────────────────────
+
+  // Parse "1:1-5" / "1:1" / "1" → { chapter, fromV, toV } (null = semua)
+  function parseRef(ref) {
+    ref = (ref || '').trim();
+    if (!ref) return null;
+
+    // "1:1-5" atau "1:1"
+    const m1 = ref.match(/^(\d+)\s*:\s*(\d+)(?:\s*[-–]\s*(\d+))?$/);
+    if (m1) {
+      const ch = +m1[1], from = +m1[2], to = m1[3] ? +m1[3] : from;
+      if (ch < 1 || from < 1 || to < from) return null;
+      return { chapter: ch, fromV: from, toV: to };
+    }
+
+    // "1" (satu pasal penuh)
+    const m2 = ref.match(/^(\d+)$/);
+    if (m2) {
+      const ch = +m2[1];
+      if (ch < 1) return null;
+      return { chapter: ch, fromV: null, toV: null };
+    }
+
+    return null;
+  }
+
+  // Buat slide-group: array of { verseRange, perikop, items: [{verse, text}] }
+  // Title verses (perikop) jadi header untuk grup berikutnya.
+  function buildBibelSlides(rawVerses, fromV, toV) {
+    // 1) Filter sesuai range (kalau ada). 'title' selalu disertakan karena
+    //    judulnya mengawali bagian — kita filter berdasarkan verse number
+    //    yang relevan.
+    const contentVerses = rawVerses.filter(v => v.type === 'content');
+    const titleVerses   = rawVerses.filter(v => v.type === 'title');
+
+    // Map: verse number → title text (kalau ada title untuk verse tersebut)
+    const titleByVerse = new Map();
+    titleVerses.forEach(t => {
+      if (!titleByVerse.has(t.verse)) titleByVerse.set(t.verse, []);
+      titleByVerse.get(t.verse).push(t.text);
+    });
+
+    // Filter content sesuai range
+    const filtered = (fromV == null)
+      ? contentVerses
+      : contentVerses.filter(v => v.verse >= fromV && v.verse <= toV);
+
+    if (!filtered.length) return [];
+
+    // 2) Bagi jadi grup VERSES_PER_SLIDE ayat
+    const slides = [];
+    let buffer = [];
+    let bufferPerikop = null;
+
+    filtered.forEach((v, idx) => {
+      // Cek apakah ada judul perikop untuk ayat ini
+      const titles = titleByVerse.get(v.verse);
+      if (titles && titles.length) {
+        // Flush buffer dulu kalau ada
+        if (buffer.length) {
+          slides.push({ perikop: bufferPerikop, items: buffer });
+          buffer = [];
+          bufferPerikop = null;
+        }
+        bufferPerikop = titles.join(' / ');
+      }
+
+      buffer.push({ verse: v.verse, text: v.text });
+
+      if (buffer.length >= VERSES_PER_SLIDE) {
+        slides.push({ perikop: bufferPerikop, items: buffer });
+        buffer = [];
+        bufferPerikop = null;
+      }
+    });
+
+    if (buffer.length) slides.push({ perikop: bufferPerikop, items: buffer });
+    return slides;
+  }
+
+  async function fetchBibel() {
+    const bookIdx = parseInt(bookSelect.value, 10);
+    const book = BIBLE_BOOKS[bookIdx];
+    if (!book) { showStatus('Kitab tidak valid', true); return; }
+
+    const parsed = parseRef(verseInput.value);
+    if (!parsed) {
+      showStatus('Format ayat tidak valid. Gunakan: <b>1:1-5</b> atau <b>1:1</b> atau <b>1</b>', true);
+      return;
+    }
+
+    resetDisplay();
+    showStatus('Memuat ayat...');
+
+    const langDir = currentLang; // 'toba' | 'tb'
+    // Slug URL = nama Indonesia (sesuai struktur repo)
+    const slug = encodeURIComponent(book.tbName);
+    const url  = `${BIBEL_API}/${langDir}/book/${slug}/${parsed.chapter}.json`;
+
+    try {
+      const data = await fetchJSON(url);
+
+      const slides = buildBibelSlides(data.verses || [], parsed.fromV, parsed.toV);
+      if (!slides.length) {
+        throw new Error('Ayat tidak ditemukan dalam pasal ini.');
+      }
+
+      verses = slides;
+      currentVerse = 0;
+
+      // Title area
+      bookBadge.className = 'book-badge bibel';
+      bookBadge.textContent = currentLang === 'toba' ? 'Bibel (Toba)' : 'Alkitab (Indonesia)';
+
+      const displayBookName = currentLang === 'toba' ? book.tobaLabel : book.tbName;
+      const rangeStr = (parsed.fromV == null)
+        ? `Pasal ${parsed.chapter}`
+        : (parsed.fromV === parsed.toV
+            ? `${parsed.chapter}:${parsed.fromV}`
+            : `${parsed.chapter}:${parsed.fromV}-${parsed.toV}`);
+
+      songNumber.textContent = rangeStr;
+      songTitle.textContent  = displayBookName;
+      tonalitas.textContent  = currentLang === 'toba'
+        ? `${book.tbName} · ${data.verses.length} ayat dalam pasal ini`
+        : `${book.tobaLabel} (Toba)`;
+
+      hideStatus();
+      setTimeout(() => titleArea.classList.add('visible'), 50);
+
+      renderBibelCards();
+      presentBtn.classList.add('show');
+      kbHint.style.display = 'block';
+
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      showStatus(err.message, true);
+    }
+  }
+
+  function renderBibelCards() {
+    verses.forEach((slide, i) => {
+      const card = document.createElement('div');
+      card.className = 'verse-card';
+      card.dataset.index = i;
+
+      const label = document.createElement('div');
+      label.className = 'verse-number';
+      const first = slide.items[0].verse;
+      const last  = slide.items[slide.items.length - 1].verse;
+      label.textContent = `Slide ${i + 1} · Ayat ${first}${first !== last ? '-' + last : ''}`;
+
+      card.appendChild(label);
+
+      // Perikop (judul) kalau ada
+      if (slide.perikop) {
+        const p = document.createElement('div');
+        p.className = 'perikop-text';
+        p.style.cssText = 'font-family:Cinzel,serif;font-size:11px;letter-spacing:0.18em;color:var(--bb-accent-light);text-transform:uppercase;font-weight:600;margin-bottom:12px;line-height:1.5;';
+        p.textContent = slide.perikop;
+        card.appendChild(p);
+      }
+
+      // Ayat-ayat
+      slide.items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'bibel-verse';
+        const sup = document.createElement('span');
+        sup.className = 'bibel-verse-num';
+        sup.textContent = item.verse;
+        div.appendChild(sup);
+        div.appendChild(document.createTextNode(item.text));
+        card.appendChild(div);
+      });
+
+      versesGrid.appendChild(card);
+      setTimeout(() => card.classList.add('visible'), 100 + i * 70);
+
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.verse-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentVerse = i;
+      });
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────────
+  // FULLSCREEN
+  // ─────────────────────────────────────────────────────────────────
+  function openFullscreen(index) {
+    currentVerse = index;
+    renderFsVerse();
+    fullscreen.classList.add('open');
+  }
+
+  function closeFull() { fullscreen.classList.remove('open'); }
+
+  function renderFsVerse() {
+    const v = verses[currentVerse];
+    if (!v) return;
+
+    fullscreen.classList.toggle('ende-mode',  currentMode === 'ende');
+    fullscreen.classList.toggle('bibel-mode', currentMode === 'bibel');
+
+    if (currentMode === 'bibel') {
+      renderFsBibel(v);
+    } else {
+      renderFsSong(v);
+    }
+
+    // Sync card highlight
+    document.querySelectorAll('.verse-card').forEach(c => {
+      c.classList.toggle('active', +c.dataset.index === currentVerse);
+    });
+  }
+
+  function renderFsSong(v) {
+    const isReff = v.type === 'reff';
+    const book   = BOOKS[currentMode];
+
+    let vNum = 0;
+    for (let i = 0; i <= currentVerse; i++) {
+      if (verses[i].type !== 'reff') vNum++;
+    }
+
+    fsBook.textContent     = book.full;
+    fsVerseNum.textContent = isReff
+      ? `Refrein · ${currentVerse + 1} / ${verses.length}`
+      : `Bait ${vNum} · ${currentVerse + 1} / ${verses.length}`;
+
+    fullscreen.classList.toggle('is-reff', isReff);
+
+    fsLines.innerHTML = '';
+    v.lines.forEach(line => {
+      const li = document.createElement('li');
+      li.className = 'fs-line';
+      li.textContent = line;
+      fsLines.appendChild(li);
+    });
+  }
+
+  function renderFsBibel(slide) {
+    fullscreen.classList.remove('is-reff');
+
+    const bookIdx = parseInt(bookSelect.value, 10);
+    const book = BIBLE_BOOKS[bookIdx];
+    const displayBookName = currentLang === 'toba' ? book.tobaLabel : book.tbName;
+    const first = slide.items[0].verse;
+    const last  = slide.items[slide.items.length - 1].verse;
+    const parsed = parseRef(verseInput.value);
+    const ch = parsed?.chapter || 1;
+
+    fsBook.textContent = currentLang === 'toba' ? 'Bibel · Toba' : 'Alkitab · Indonesia';
+    fsVerseNum.textContent = `${displayBookName} ${ch}:${first}${first !== last ? '-' + last : ''} · ${currentVerse + 1} / ${verses.length}`;
+
+    fsLines.innerHTML = '';
+
+    // Perikop dulu kalau ada
+    if (slide.perikop) {
+      const li = document.createElement('li');
+      li.style.cssText = 'font-family:Cinzel,serif;font-size:clamp(12px,1.4vw,18px);letter-spacing:0.2em;color:var(--bb-accent-light);text-transform:uppercase;font-weight:600;margin-bottom:28px;line-height:1.5;text-align:center;';
+      li.textContent = slide.perikop;
+      fsLines.appendChild(li);
+    }
+
+    slide.items.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'fs-bibel-verse';
+      const sup = document.createElement('span');
+      sup.className = 'fs-bibel-verse-num';
+      sup.textContent = item.verse;
+      li.appendChild(sup);
+      li.appendChild(document.createTextNode(item.text));
+      fsLines.appendChild(li);
+    });
+  }
+
+  function fsPrevVerse() { if (currentVerse > 0) { currentVerse--; renderFsVerse(); } }
+  function fsNextVerse() { if (currentVerse < verses.length - 1) { currentVerse++; renderFsVerse(); } }
+
+  // ─────────────────────────────────────────────────────────────────
+  // EVENTS
+  // ─────────────────────────────────────────────────────────────────
+  fetchBtn.addEventListener('click', fetchSong);
+  bibelFetchBtn.addEventListener('click', fetchBibel);
+  songInput.addEventListener('keydown',  e => { if (e.key === 'Enter') fetchSong(); });
+  verseInput.addEventListener('keydown', e => { if (e.key === 'Enter') fetchBibel(); });
+  bookSelect.addEventListener('change',  () => { /* user akan klik Tampilkan */ });
+
+  presentBtn.addEventListener('click', () => openFullscreen(currentVerse));
+  fsPrev.addEventListener('click', e => { e.stopPropagation(); fsPrevVerse(); });
+  fsNext.addEventListener('click', e => { e.stopPropagation(); fsNextVerse(); });
+  fullscreen.addEventListener('click', e => {
+    if (e.target === fullscreen || e.target === fsLines || e.target === fsBook || e.target === fsVerseNum) closeFull();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (fullscreen.classList.contains('open')) {
+      if (e.key === 'ArrowLeft')  fsPrevVerse();
+      if (e.key === 'ArrowRight') fsNextVerse();
+      if (e.key === 'Escape')     closeFull();
+    } else {
+      const inInput = document.activeElement === songInput
+                    || document.activeElement === verseInput
+                    || document.activeElement === bookSelect;
+      if ((e.key === 'f' || e.key === 'F') && !inInput && verses.length) {
+        openFullscreen(currentVerse);
+      }
+    }
+  });
+
+  // ─────────────────────────────────────────────────────────────────
+  // GLOW MODE TOGGLE
+  // ─────────────────────────────────────────────────────────────────
+  let glowActive = false;
+
+  document.getElementById('glowToggle').addEventListener('click', () => {
+    glowActive = !glowActive;
+    body.classList.toggle('glow-mode', glowActive);
+    fullscreen.classList.toggle('glow-active', glowActive);
+  });
+
+  // Patch openFullscreen to sync glow class
+  const _origOpen = openFullscreen;
+  function openFullscreen(index) {
+    currentVerse = index;
+    renderFsVerse();
+    fullscreen.classList.add('open');
+    fullscreen.classList.toggle('glow-active', glowActive);
+  }
+
+  // Auto-load KJ 13
+  fetchSong();
+</script>
+</body>
+</html>
