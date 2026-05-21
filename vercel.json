@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/kj/:path*",
+      "destination": "https://api.hkbp.or.id/api/v1/kidung-jemaat/:path*"
+    },
+    {
+      "source": "/api/be/:path*",
+      "destination": "https://api.hkbp.or.id/api/v1/buku-ende/:path*"
+    },
+    {
+      "source": "/api/bible/:path*",
+      "destination": "https://cdn.jsdelivr.net/gh/pandapotan/ktb@main/bib/:path*"
+    }
+  ]
+}
