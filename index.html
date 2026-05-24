@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -997,11 +997,11 @@
   // CONFIG
   // ─────────────────────────────────────────────────────────────────
   const BOOKS = {
-    kj:   { api: 'https://api.hkbp.or.id/api/v1/kidung-jemaat/songs/', label: 'KJ', full: 'Kidung Jemaat', inputLabel: 'KJ No.' },
-    ende: { api: 'https://api.hkbp.or.id/api/v1/buku-ende/songs/',     label: 'BE', full: 'Buku Ende',     inputLabel: 'BE No.' },
+    kj:   { api: '/api/kj/songs/', label: 'KJ', full: 'Kidung Jemaat', inputLabel: 'KJ No.' },
+    ende: { api: '/api/be/songs/', label: 'BE', full: 'Buku Ende',     inputLabel: 'BE No.' },
   };
 
-  const BIBEL_API = 'https://beeble.vercel.app/api/v1/passage';
+  const BIBEL_API = '/api/bible';
 
   // 66 kitab Alkitab.
   // Format: [namaBatak (untuk URL Toba), namaIndonesia (untuk URL TB & display)]
