@@ -1001,7 +1001,7 @@
     ende: { api: '/api/be/songs/', label: 'BE', full: 'Buku Ende',     inputLabel: 'BE No.' },
   };
 
-  const BIBEL_API = 'https://cdn.jsdelivr.net/gh/pandapotan/ktb@main/bib';
+  const BIBEL_API = '/api/bible';
 
   // 66 kitab Alkitab.
   // Format: [namaBatak (untuk URL Toba), namaIndonesia (untuk URL TB & display)]
@@ -1010,73 +1010,73 @@
   //   `tobaLabel` hanya untuk display saat bahasa = Toba.
   const BIBLE_BOOKS = [
     // Perjanjian Lama
-    { tobaLabel: '1 Musa',              tbName: 'Kejadian' },
-    { tobaLabel: '2 Musa',              tbName: 'Keluaran' },
-    { tobaLabel: '3 Musa',              tbName: 'Imamat' },
-    { tobaLabel: '4 Musa',              tbName: 'Bilangan' },
-    { tobaLabel: '5 Musa',              tbName: 'Ulangan' },
-    { tobaLabel: 'Josua',               tbName: 'Yosua' },
-    { tobaLabel: 'Hakim-hakim',         tbName: 'Hakim-hakim' },
-    { tobaLabel: 'Rut',                 tbName: 'Rut' },
-    { tobaLabel: '1 Angka Raja',        tbName: '1 Samuel' },
-    { tobaLabel: '2 Angka Raja',        tbName: '2 Samuel' },
-    { tobaLabel: '3 Angka Raja',        tbName: '1 Raja-raja' },
-    { tobaLabel: '4 Angka Raja',        tbName: '2 Raja-raja' },
-    { tobaLabel: '5 Angka Raja',        tbName: '1 Tawarikh' },
-    { tobaLabel: '6 Angka Raja',        tbName: '2 Tawarikh' },
-    { tobaLabel: 'Esra',                tbName: 'Ezra' },
-    { tobaLabel: 'Nehemia',             tbName: 'Nehemia' },
-    { tobaLabel: 'Ester',               tbName: 'Ester' },
-    { tobaLabel: 'Job',                 tbName: 'Ayub' },
-    { tobaLabel: 'Psalmen',             tbName: 'Mazmur' },
-    { tobaLabel: 'Poda',                tbName: 'Amsal' },
-    { tobaLabel: 'Parjamita',           tbName: 'Pengkhotbah' },
-    { tobaLabel: 'Ende ni angka Ende',  tbName: 'Kidung Agung' },
-    { tobaLabel: 'Jesaya',              tbName: 'Yesaya' },
-    { tobaLabel: 'Jeremia',             tbName: 'Yeremia' },
-    { tobaLabel: 'Andung-andung',       tbName: 'Ratapan' },
-    { tobaLabel: 'Hesekiel',            tbName: 'Yehezkiel' },
-    { tobaLabel: 'Daniel',              tbName: 'Daniel' },
-    { tobaLabel: 'Hosea',               tbName: 'Hosea' },
-    { tobaLabel: 'Joel',                tbName: 'Yoel' },
-    { tobaLabel: 'Amos',                tbName: 'Amos' },
-    { tobaLabel: 'Obaja',               tbName: 'Obaja' },
-    { tobaLabel: 'Jona',                tbName: 'Yunus' },
-    { tobaLabel: 'Mika',                tbName: 'Mikha' },
-    { tobaLabel: 'Nahum',               tbName: 'Nahum' },
-    { tobaLabel: 'Habakuk',             tbName: 'Habakuk' },
-    { tobaLabel: 'Zepanya',             tbName: 'Zefanya' },
-    { tobaLabel: 'Hagai',               tbName: 'Hagai' },
-    { tobaLabel: 'Sakaria',             tbName: 'Zakharia' },
-    { tobaLabel: 'Maleaki',             tbName: 'Maleakhi' },
+    { tobaLabel: '1 Musa',              tbName: 'Kejadian',          abbr: 'Kej'  },
+    { tobaLabel: '2 Musa',              tbName: 'Keluaran',          abbr: 'Kel'  },
+    { tobaLabel: '3 Musa',              tbName: 'Imamat',            abbr: 'Im'   },
+    { tobaLabel: '4 Musa',              tbName: 'Bilangan',          abbr: 'Bil'  },
+    { tobaLabel: '5 Musa',              tbName: 'Ulangan',           abbr: 'Ul'   },
+    { tobaLabel: 'Josua',               tbName: 'Yosua',             abbr: 'Yos'  },
+    { tobaLabel: 'Hakim-hakim',         tbName: 'Hakim-hakim',       abbr: 'Hak'  },
+    { tobaLabel: 'Rut',                 tbName: 'Rut',               abbr: 'Rut'  },
+    { tobaLabel: '1 Angka Raja',        tbName: '1 Samuel',          abbr: '1Sam' },
+    { tobaLabel: '2 Angka Raja',        tbName: '2 Samuel',          abbr: '2Sam' },
+    { tobaLabel: '3 Angka Raja',        tbName: '1 Raja-raja',       abbr: '1Raj' },
+    { tobaLabel: '4 Angka Raja',        tbName: '2 Raja-raja',       abbr: '2Raj' },
+    { tobaLabel: '5 Angka Raja',        tbName: '1 Tawarikh',        abbr: '1Taw' },
+    { tobaLabel: '6 Angka Raja',        tbName: '2 Tawarikh',        abbr: '2Taw' },
+    { tobaLabel: 'Esra',                tbName: 'Ezra',              abbr: 'Ezr'  },
+    { tobaLabel: 'Nehemia',             tbName: 'Nehemia',           abbr: 'Neh'  },
+    { tobaLabel: 'Ester',               tbName: 'Ester',             abbr: 'Est'  },
+    { tobaLabel: 'Job',                 tbName: 'Ayub',              abbr: 'Ayb'  },
+    { tobaLabel: 'Psalmen',             tbName: 'Mazmur',            abbr: 'Mzm'  },
+    { tobaLabel: 'Poda',                tbName: 'Amsal',             abbr: 'Ams'  },
+    { tobaLabel: 'Parjamita',           tbName: 'Pengkhotbah',       abbr: 'Pkh'  },
+    { tobaLabel: 'Ende ni angka Ende',  tbName: 'Kidung Agung',      abbr: 'Kid'  },
+    { tobaLabel: 'Jesaya',              tbName: 'Yesaya',            abbr: 'Yes'  },
+    { tobaLabel: 'Jeremia',             tbName: 'Yeremia',           abbr: 'Yer'  },
+    { tobaLabel: 'Andung-andung',       tbName: 'Ratapan',           abbr: 'Rat'  },
+    { tobaLabel: 'Hesekiel',            tbName: 'Yehezkiel',         abbr: 'Yeh'  },
+    { tobaLabel: 'Daniel',              tbName: 'Daniel',            abbr: 'Dan'  },
+    { tobaLabel: 'Hosea',               tbName: 'Hosea',             abbr: 'Hos'  },
+    { tobaLabel: 'Joel',                tbName: 'Yoel',              abbr: 'Yoel' },
+    { tobaLabel: 'Amos',                tbName: 'Amos',              abbr: 'Amos' },
+    { tobaLabel: 'Obaja',               tbName: 'Obaja',             abbr: 'Ob'   },
+    { tobaLabel: 'Jona',                tbName: 'Yunus',             abbr: 'Yun'  },
+    { tobaLabel: 'Mika',                tbName: 'Mikha',             abbr: 'Mi'   },
+    { tobaLabel: 'Nahum',               tbName: 'Nahum',             abbr: 'Nah'  },
+    { tobaLabel: 'Habakuk',             tbName: 'Habakuk',           abbr: 'Hab'  },
+    { tobaLabel: 'Zepanya',             tbName: 'Zefanya',           abbr: 'Zef'  },
+    { tobaLabel: 'Hagai',               tbName: 'Hagai',             abbr: 'Hag'  },
+    { tobaLabel: 'Sakaria',             tbName: 'Zakharia',          abbr: 'Za'   },
+    { tobaLabel: 'Maleaki',             tbName: 'Maleakhi',          abbr: 'Mal'  },
     // Perjanjian Baru
-    { tobaLabel: 'Mateus',              tbName: 'Matius' },
-    { tobaLabel: 'Markus',              tbName: 'Markus' },
-    { tobaLabel: 'Lukas',               tbName: 'Lukas' },
-    { tobaLabel: 'Johannes',            tbName: 'Yohanes' },
-    { tobaLabel: 'Ulaon ni angka Apostel', tbName: 'Kisah Para Rasul' },
-    { tobaLabel: 'Rom',                 tbName: 'Roma' },
-    { tobaLabel: '1 Korint',            tbName: '1 Korintus' },
-    { tobaLabel: '2 Korint',            tbName: '2 Korintus' },
-    { tobaLabel: 'Galatia',             tbName: 'Galatia' },
-    { tobaLabel: 'Epesus',              tbName: 'Efesus' },
-    { tobaLabel: 'Pilippi',             tbName: 'Filipi' },
-    { tobaLabel: 'Kolosse',             tbName: 'Kolose' },
-    { tobaLabel: '1 Tessalonik',        tbName: '1 Tesalonika' },
-    { tobaLabel: '2 Tessalonik',        tbName: '2 Tesalonika' },
-    { tobaLabel: '1 Timoteus',          tbName: '1 Timotius' },
-    { tobaLabel: '2 Timoteus',          tbName: '2 Timotius' },
-    { tobaLabel: 'Titus',               tbName: 'Titus' },
-    { tobaLabel: 'Pilemon',             tbName: 'Filemon' },
-    { tobaLabel: 'Heber',               tbName: 'Ibrani' },
-    { tobaLabel: 'Jakobus',             tbName: 'Yakobus' },
-    { tobaLabel: '1 Petrus',            tbName: '1 Petrus' },
-    { tobaLabel: '2 Petrus',            tbName: '2 Petrus' },
-    { tobaLabel: '1 Johannes',          tbName: '1 Yohanes' },
-    { tobaLabel: '2 Johannes',          tbName: '2 Yohanes' },
-    { tobaLabel: '3 Johannes',          tbName: '3 Yohanes' },
-    { tobaLabel: 'Judas',               tbName: 'Yudas' },
-    { tobaLabel: 'Pangungkapon',        tbName: 'Wahyu' },
+    { tobaLabel: 'Mateus',              tbName: 'Matius',            abbr: 'Mat'  },
+    { tobaLabel: 'Markus',              tbName: 'Markus',            abbr: 'Mrk'  },
+    { tobaLabel: 'Lukas',               tbName: 'Lukas',             abbr: 'Luk'  },
+    { tobaLabel: 'Johannes',            tbName: 'Yohanes',           abbr: 'Yoh'  },
+    { tobaLabel: 'Ulaon ni angka Apostel', tbName: 'Kisah Para Rasul', abbr: 'Kis' },
+    { tobaLabel: 'Rom',                 tbName: 'Roma',              abbr: 'Rom'  },
+    { tobaLabel: '1 Korint',            tbName: '1 Korintus',        abbr: '1Kor' },
+    { tobaLabel: '2 Korint',            tbName: '2 Korintus',        abbr: '2Kor' },
+    { tobaLabel: 'Galatia',             tbName: 'Galatia',           abbr: 'Gal'  },
+    { tobaLabel: 'Epesus',              tbName: 'Efesus',            abbr: 'Ef'   },
+    { tobaLabel: 'Pilippi',             tbName: 'Filipi',            abbr: 'Flp'  },
+    { tobaLabel: 'Kolosse',             tbName: 'Kolose',            abbr: 'Kol'  },
+    { tobaLabel: '1 Tessalonik',        tbName: '1 Tesalonika',      abbr: '1Tes' },
+    { tobaLabel: '2 Tessalonik',        tbName: '2 Tesalonika',      abbr: '2Tes' },
+    { tobaLabel: '1 Timoteus',          tbName: '1 Timotius',        abbr: '1Tim' },
+    { tobaLabel: '2 Timoteus',          tbName: '2 Timotius',        abbr: '2Tim' },
+    { tobaLabel: 'Titus',               tbName: 'Titus',             abbr: 'Tit'  },
+    { tobaLabel: 'Pilemon',             tbName: 'Filemon',           abbr: 'Flm'  },
+    { tobaLabel: 'Heber',               tbName: 'Ibrani',            abbr: 'Ibr'  },
+    { tobaLabel: 'Jakobus',             tbName: 'Yakobus',           abbr: 'Yak'  },
+    { tobaLabel: '1 Petrus',            tbName: '1 Petrus',          abbr: '1Pet' },
+    { tobaLabel: '2 Petrus',            tbName: '2 Petrus',          abbr: '2Pet' },
+    { tobaLabel: '1 Johannes',          tbName: '1 Yohanes',         abbr: '1Yoh' },
+    { tobaLabel: '2 Johannes',          tbName: '2 Yohanes',         abbr: '2Yoh' },
+    { tobaLabel: '3 Johannes',          tbName: '3 Yohanes',         abbr: '3Yoh' },
+    { tobaLabel: 'Judas',               tbName: 'Yudas',             abbr: 'Yud'  },
+    { tobaLabel: 'Pangungkapon',        tbName: 'Wahyu',             abbr: 'Why'  },
   ];
 
   const VERSES_PER_SLIDE = 3; // saat fullscreen Bibel
@@ -1395,12 +1395,20 @@
     showStatus('Memuat ayat...');
 
     const langDir = currentLang; // 'toba' | 'tb'
-    // Slug URL = nama Indonesia (sesuai struktur repo)
-    const slug = encodeURIComponent(book.tbName);
-    const url  = `${BIBEL_API}/${langDir}/book/${slug}/${parsed.chapter}.json`;
+    // Beeble API: /api/v1/passage/{abbr}/{chapter}?ver={toba|tb}
+    const url = `${BIBEL_API}/${book.abbr}/${parsed.chapter}?ver=${langDir}`;
 
     try {
-      const data = await fetchJSON(url);
+      const raw = await fetchJSON(url);
+
+      // Normalize beeble response → {verses: [{verse, text, type}]}
+      // Beeble: { title, book_number, chapter, verses: [{verse, type, content}] }
+      const normalized = (raw.verses || []).map(v => ({
+        verse: v.verse,
+        text:  v.content || v.text || '',
+        type:  v.type === 'title' ? 'title' : 'content'
+      }));
+      const data = { verses: normalized };
 
       const slides = buildBibelSlides(data.verses || [], parsed.fromV, parsed.toV);
       if (!slides.length) {
@@ -1424,7 +1432,7 @@
       songNumber.textContent = rangeStr;
       songTitle.textContent  = displayBookName;
       tonalitas.textContent  = currentLang === 'toba'
-        ? `${book.tbName} · ${data.verses.length} ayat dalam pasal ini`
+        ? `${book.tbName} · ${data.verses.length} ayat`
         : `${book.tobaLabel} (Toba)`;
 
       hideStatus();

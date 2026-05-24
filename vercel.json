@@ -10,7 +10,7 @@
     },
     {
       "source": "/api/bible/:path*",
-      "destination": "https://cdn.jsdelivr.net/gh/pandapotan/ktb@main/bib/:path*"
+      "destination": "https://beeble.vercel.app/api/v1/passage/:path*"
     }
   ]
 }
