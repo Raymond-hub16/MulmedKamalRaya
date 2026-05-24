@@ -1,4 +1,4 @@
-v<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -17,31 +17,27 @@ v<!DOCTYPE html>
       --card: #1e1912;
       --border: rgba(201,168,76,0.2);
 
-      /* KJ accent (warm gold) */
       --kj-accent: #c9a84c;
       --kj-accent-light: #e8cb7a;
       --kj-accent-dim: #7a6330;
 
-      /* Buku Ende accent (cool blue-silver) */
       --be-accent: #6b9ec4;
       --be-accent-light: #9dc4e0;
       --be-accent-dim: #3a5f7a;
 
-      /* Bibel accent (warm crimson-rose, kitab suci) */
       --bb-accent: #b87979;
       --bb-accent-light: #d9a8a8;
       --bb-accent-dim: #6e4444;
     }
 
     /* ══════════════════════════════════════
-       GLOW MODE
+       GLOW MODE — LIGHT BACKGROUND
        ══════════════════════════════════════ */
 
-    /* Pure black background so orbs pop */
-    body.glow-mode { background: #000 !important; }
-    body.glow-mode::before { display: none; } /* kill the old subtle gradient */
+    /* WHITE background so glow pops on light */
+    body.glow-mode { background: #ffffff !important; }
+    body.glow-mode::before { display: none; }
 
-    /* ── Animated orbs ── */
     @keyframes orb-float-1 {
       0%,100% { transform: translate(0px, 0px) scale(1); }
       30%      { transform: translate(40px, 30px) scale(1.06); }
@@ -66,150 +62,189 @@ v<!DOCTYPE html>
     }
     body.glow-mode .glow-orb { display: block; }
 
-    /* KJ — warm gold */
+    /* KJ — warm gold orbs on white */
     body.glow-mode.kj .glow-orb-1 {
       width: 700px; height: 700px;
       top: -220px; left: calc(50% - 350px);
-      background: radial-gradient(circle at center, rgba(201,168,76,0.55) 0%, rgba(201,168,76,0.18) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(201,168,76,0.35) 0%, rgba(201,168,76,0.10) 40%, transparent 70%);
       filter: blur(60px);
       animation: orb-float-1 14s ease-in-out infinite;
     }
     body.glow-mode.kj .glow-orb-2 {
       width: 500px; height: 500px;
       bottom: -120px; right: -100px;
-      background: radial-gradient(circle at center, rgba(220,140,40,0.5) 0%, rgba(220,140,40,0.15) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(220,140,40,0.3) 0%, rgba(220,140,40,0.08) 40%, transparent 70%);
       filter: blur(70px);
       animation: orb-float-2 18s ease-in-out infinite;
     }
     body.glow-mode.kj .glow-orb-3 {
       width: 380px; height: 380px;
       top: 40%; left: -80px;
-      background: radial-gradient(circle at center, rgba(255,180,50,0.35) 0%, rgba(255,180,50,0.1) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(255,180,50,0.25) 0%, rgba(255,180,50,0.07) 40%, transparent 70%);
       filter: blur(55px);
       animation: orb-float-3 22s ease-in-out infinite;
     }
 
-    /* BE — electric blue */
+    /* BE — blue orbs on white */
     body.glow-mode.ende .glow-orb-1 {
       width: 700px; height: 700px;
       top: -220px; left: calc(50% - 350px);
-      background: radial-gradient(circle at center, rgba(107,158,196,0.55) 0%, rgba(107,158,196,0.18) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(107,158,196,0.35) 0%, rgba(107,158,196,0.10) 40%, transparent 70%);
       filter: blur(60px);
       animation: orb-float-1 14s ease-in-out infinite;
     }
     body.glow-mode.ende .glow-orb-2 {
       width: 500px; height: 500px;
       bottom: -120px; right: -100px;
-      background: radial-gradient(circle at center, rgba(60,120,200,0.5) 0%, rgba(60,120,200,0.15) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(60,120,200,0.3) 0%, rgba(60,120,200,0.08) 40%, transparent 70%);
       filter: blur(70px);
       animation: orb-float-2 18s ease-in-out infinite;
     }
     body.glow-mode.ende .glow-orb-3 {
       width: 380px; height: 380px;
       top: 40%; left: -80px;
-      background: radial-gradient(circle at center, rgba(80,160,220,0.35) 0%, rgba(80,160,220,0.1) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(80,160,220,0.22) 0%, rgba(80,160,220,0.06) 40%, transparent 70%);
       filter: blur(55px);
       animation: orb-float-3 22s ease-in-out infinite;
     }
 
-    /* Bibel — deep crimson */
+    /* Bibel — crimson orbs on white */
     body.glow-mode.bibel .glow-orb-1 {
       width: 700px; height: 700px;
       top: -220px; left: calc(50% - 350px);
-      background: radial-gradient(circle at center, rgba(200,90,90,0.55) 0%, rgba(200,90,90,0.18) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(200,90,90,0.35) 0%, rgba(200,90,90,0.10) 40%, transparent 70%);
       filter: blur(60px);
       animation: orb-float-1 14s ease-in-out infinite;
     }
     body.glow-mode.bibel .glow-orb-2 {
       width: 500px; height: 500px;
       bottom: -120px; right: -100px;
-      background: radial-gradient(circle at center, rgba(160,50,50,0.5) 0%, rgba(160,50,50,0.15) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(160,50,50,0.3) 0%, rgba(160,50,50,0.08) 40%, transparent 70%);
       filter: blur(70px);
       animation: orb-float-2 18s ease-in-out infinite;
     }
     body.glow-mode.bibel .glow-orb-3 {
       width: 380px; height: 380px;
       top: 40%; left: -80px;
-      background: radial-gradient(circle at center, rgba(220,80,80,0.35) 0%, rgba(220,80,80,0.1) 40%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(220,80,80,0.22) 0%, rgba(220,80,80,0.06) 40%, transparent 70%);
       filter: blur(55px);
       animation: orb-float-3 22s ease-in-out infinite;
     }
 
-    /* ── Cards: glassmorphism ── */
+    /* ── Cards: glassmorphism on white ── */
     body.glow-mode .verse-card {
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.7);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.07);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     }
-    body.glow-mode.kj   .verse-card:hover  { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.3); box-shadow: 0 0 30px rgba(201,168,76,0.18), 0 4px 24px rgba(0,0,0,0.5); }
-    body.glow-mode.ende .verse-card:hover  { background: rgba(107,158,196,0.06); border-color: rgba(107,158,196,0.3); box-shadow: 0 0 30px rgba(107,158,196,0.18), 0 4px 24px rgba(0,0,0,0.5); }
-    body.glow-mode.bibel .verse-card:hover { background: rgba(200,90,90,0.06); border-color: rgba(200,90,90,0.3); box-shadow: 0 0 30px rgba(200,90,90,0.18), 0 4px 24px rgba(0,0,0,0.5); }
+    body.glow-mode .verse-card .verse-line { color: #1a1400 !important; }
+    body.glow-mode .verse-card .verse-number { color: #7a6330; }
 
-    body.glow-mode.kj   .verse-card.active { background: rgba(201,168,76,0.09); border-color: rgba(201,168,76,0.6); box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 0 80px rgba(201,168,76,0.12); }
-    body.glow-mode.ende .verse-card.active { background: rgba(107,158,196,0.09); border-color: rgba(107,158,196,0.6); box-shadow: 0 0 40px rgba(107,158,196,0.3), 0 0 80px rgba(107,158,196,0.12); }
-    body.glow-mode.bibel .verse-card.active { background: rgba(200,90,90,0.09); border-color: rgba(200,90,90,0.6); box-shadow: 0 0 40px rgba(200,90,90,0.3), 0 0 80px rgba(200,90,90,0.12); }
+    body.glow-mode.kj   .verse-card:hover  { background: rgba(201,168,76,0.10); border-color: rgba(201,168,76,0.4); box-shadow: 0 0 24px rgba(201,168,76,0.25), 0 2px 16px rgba(0,0,0,0.07); }
+    body.glow-mode.ende .verse-card:hover  { background: rgba(107,158,196,0.10); border-color: rgba(107,158,196,0.4); box-shadow: 0 0 24px rgba(107,158,196,0.25), 0 2px 16px rgba(0,0,0,0.07); }
+    body.glow-mode.bibel .verse-card:hover { background: rgba(200,90,90,0.10); border-color: rgba(200,90,90,0.4); box-shadow: 0 0 24px rgba(200,90,90,0.25), 0 2px 16px rgba(0,0,0,0.07); }
 
-    /* Reff glass */
-    body.glow-mode .verse-card.reff-card { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
-    body.glow-mode.kj   .verse-card.reff-card { border-color: rgba(201,168,76,0.2); }
-    body.glow-mode.ende .verse-card.reff-card { border-color: rgba(107,158,196,0.2); }
+    body.glow-mode.kj   .verse-card.active { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.7); box-shadow: 0 0 32px rgba(201,168,76,0.35); }
+    body.glow-mode.ende .verse-card.active { background: rgba(107,158,196,0.12); border-color: rgba(107,158,196,0.7); box-shadow: 0 0 32px rgba(107,158,196,0.35); }
+    body.glow-mode.bibel .verse-card.active { background: rgba(200,90,90,0.12); border-color: rgba(200,90,90,0.7); box-shadow: 0 0 32px rgba(200,90,90,0.35); }
 
-    /* ── Header frosted ── */
+    body.glow-mode .verse-card.reff-card { background: rgba(255,255,255,0.65); border-color: rgba(0,0,0,0.07); }
+    body.glow-mode.kj   .verse-card.reff-card { border-color: rgba(201,168,76,0.3); }
+    body.glow-mode.ende .verse-card.reff-card { border-color: rgba(107,158,196,0.3); }
+    body.glow-mode .verse-card.reff-card .verse-line { color: #5a4010 !important; }
+
+    /* ── Header frosted on white ── */
     body.glow-mode header {
-      background: rgba(0,0,0,0.5);
+      background: rgba(255,255,255,0.75);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
     }
 
-    /* ── Text glow on title ── */
+    /* ── Text on white bg — dark with glow ── */
     body.glow-mode .song-title {
-      text-shadow: 0 0 20px rgba(201,168,76,0.7), 0 0 60px rgba(201,168,76,0.3);
+      color: #1a1000;
+      text-shadow: 0 0 18px rgba(201,168,76,0.55), 0 0 50px rgba(201,168,76,0.20);
     }
-    body.glow-mode.ende  .song-title { text-shadow: 0 0 20px rgba(107,158,196,0.7), 0 0 60px rgba(107,158,196,0.3); }
-    body.glow-mode.bibel .song-title { text-shadow: 0 0 20px rgba(200,90,90,0.7), 0 0 60px rgba(200,90,90,0.3); }
+    body.glow-mode.ende  .song-title { color: #00111a; text-shadow: 0 0 18px rgba(107,158,196,0.55), 0 0 50px rgba(107,158,196,0.20); }
+    body.glow-mode.bibel .song-title { color: #1a0000; text-shadow: 0 0 18px rgba(200,90,90,0.55), 0 0 50px rgba(200,90,90,0.20); }
 
-    body.glow-mode .song-number {
-      text-shadow: 0 0 12px currentColor;
-    }
+    body.glow-mode .song-number { color: #7a5a10; text-shadow: 0 0 10px rgba(201,168,76,0.4); }
+    body.glow-mode.ende  .song-number { color: #0a3a5a; text-shadow: 0 0 10px rgba(107,158,196,0.4); }
+    body.glow-mode.bibel .song-number { color: #6e2a2a; text-shadow: 0 0 10px rgba(200,90,90,0.4); }
 
-    /* ── Fullscreen glow ── */
-    .fullscreen.glow-active { background: #000 !important; }
+    body.glow-mode .logo-text { color: #7a6330; }
+    body.glow-mode .tonalitas { color: #7a6330; }
 
+    /* ── FULLSCREEN — WHITE background ── */
+    .fullscreen.glow-active { background: #ffffff !important; }
+
+    /* Song lines — dark text with colored glow */
     .fullscreen.glow-active .fs-line {
+      color: #1a1200;
       text-shadow:
-        0 0 15px rgba(201,168,76,0.9),
-        0 0 40px rgba(201,168,76,0.55),
-        0 0 80px rgba(201,168,76,0.25);
+        0 0 12px rgba(201,168,76,0.7),
+        0 0 35px rgba(201,168,76,0.35),
+        0 0 70px rgba(201,168,76,0.15);
     }
     .fullscreen.glow-active.ende-mode .fs-line {
+      color: #001018;
       text-shadow:
-        0 0 15px rgba(107,158,196,0.9),
-        0 0 40px rgba(107,158,196,0.55),
-        0 0 80px rgba(107,158,196,0.25);
+        0 0 12px rgba(107,158,196,0.8),
+        0 0 35px rgba(107,158,196,0.4),
+        0 0 70px rgba(107,158,196,0.18);
     }
     .fullscreen.glow-active.bibel-mode .fs-line {
+      color: #180808;
       text-shadow:
-        0 0 15px rgba(200,90,90,0.9),
-        0 0 40px rgba(200,90,90,0.55),
-        0 0 80px rgba(200,90,90,0.25);
+        0 0 12px rgba(200,90,90,0.8),
+        0 0 35px rgba(200,90,90,0.4),
+        0 0 70px rgba(200,90,90,0.18);
     }
+    /* Reff lines on white */
     .fullscreen.glow-active.is-reff .fs-line {
+      color: #6a4a00;
       text-shadow:
-        0 0 15px rgba(232,203,122,1),
-        0 0 40px rgba(232,203,122,0.7),
-        0 0 100px rgba(232,203,122,0.35);
+        0 0 12px rgba(232,203,122,1),
+        0 0 35px rgba(232,203,122,0.65),
+        0 0 80px rgba(232,203,122,0.25);
     }
+    /* Metadata text — readable on white */
     .fullscreen.glow-active .fs-verse-num {
-      text-shadow: 0 0 10px currentColor;
+      color: #555;
+      text-shadow: none;
     }
-    /* Bible ayat glow */
+    .fullscreen.glow-active .fs-book {
+      color: rgba(0,0,0,0.35);
+    }
+    .fullscreen.glow-active .fs-hint {
+      color: rgba(0,0,0,0.22);
+    }
+    /* Bibel ayat glow on white */
     .fullscreen.glow-active .fs-bibel-verse {
+      color: #180808;
       text-shadow:
-        0 0 15px rgba(184,121,121,0.8),
-        0 0 40px rgba(184,121,121,0.4);
+        0 0 12px rgba(184,121,121,0.6),
+        0 0 35px rgba(184,121,121,0.3);
+    }
+    .fullscreen.glow-active .fs-bibel-verse-num {
+      color: #993333;
+    }
+    /* Perikop label on white */
+    .fullscreen.glow-active li[style*="Cinzel"] {
+      color: #6e2a2a !important;
+    }
+    /* Nav arrows on white */
+    .fullscreen.glow-active .fs-nav {
+      background: rgba(201,168,76,0.08);
+      border-color: rgba(201,168,76,0.25);
+      color: rgba(100,70,10,0.5);
+    }
+    .fullscreen.glow-active .fs-nav:hover {
+      background: rgba(201,168,76,0.18);
+      color: #7a5a10;
     }
 
     /* ── GLOW TOGGLE BUTTON ── */
@@ -304,7 +339,6 @@ v<!DOCTYPE html>
         radial-gradient(ellipse 60% 40% at 80% 100%, rgba(184,121,121,0.04) 0%, transparent 60%);
     }
 
-    /* ── Header ── */
     header {
       position: relative;
       z-index: 1;
@@ -337,7 +371,6 @@ v<!DOCTYPE html>
       color: var(--gold-dim);
     }
 
-    /* ── Mode Switcher (KJ / BE / Bibel) ── */
     .book-switcher {
       display: flex;
       justify-content: center;
@@ -366,21 +399,18 @@ v<!DOCTYPE html>
     .book-btn .book-short { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 2px; }
     .book-btn .book-long  { display: block; font-size: 8px; letter-spacing: 0.25em; opacity: 0.7; }
 
-    /* KJ active */
     .book-btn.kj.active {
       background: rgba(201,168,76,0.14);
       border-color: var(--kj-accent);
       color: var(--kj-accent-light);
     }
 
-    /* Ende active */
     .book-btn.ende.active {
       background: rgba(107,158,196,0.14);
       border-color: var(--be-accent);
       color: var(--be-accent-light);
     }
 
-    /* Bibel active */
     .book-btn.bibel.active {
       background: rgba(184,121,121,0.14);
       border-color: var(--bb-accent);
@@ -393,7 +423,6 @@ v<!DOCTYPE html>
       color: var(--gold-dim);
     }
 
-    /* ── Search area (song mode) ── */
     .search-area {
       display: flex;
       gap: 12px;
@@ -457,7 +486,6 @@ v<!DOCTYPE html>
     body.bibel .fetch-btn { border-color: var(--bb-accent-dim); color: var(--bb-accent); }
     body.bibel .fetch-btn:hover { background: rgba(184,121,121,0.1); border-color: var(--bb-accent); }
 
-    /* ── Bibel-specific search area ── */
     .bibel-area {
       display: none;
       flex-direction: column;
@@ -544,7 +572,6 @@ v<!DOCTYPE html>
       opacity: 0.7;
     }
 
-    /* ── Main ── */
     main {
       position: relative;
       z-index: 1;
@@ -553,7 +580,6 @@ v<!DOCTYPE html>
       padding: 0 40px 80px;
     }
 
-    /* ── Song / Bibel title area ── */
     .song-title-area {
       text-align: center;
       margin-bottom: 44px;
@@ -621,7 +647,6 @@ v<!DOCTYPE html>
     body.ende  .title-divider { background: var(--be-accent); }
     body.bibel .title-divider { background: var(--bb-accent); }
 
-    /* ── Verse cards ── */
     .verses-grid { display: grid; gap: 20px; }
 
     .verse-card {
@@ -659,7 +684,6 @@ v<!DOCTYPE html>
     body.ende  .verse-card.active::before { background: var(--be-accent); }
     body.bibel .verse-card.active::before { background: var(--bb-accent); }
 
-    /* Reff variant (song mode) */
     .verse-card.reff-card { border-color: rgba(201,168,76,0.32); background: #1a1710; }
     body.ende .verse-card.reff-card { border-color: rgba(107,158,196,0.3); background: #111720; }
     .verse-card.reff-card .verse-number { color: var(--gold); }
@@ -671,7 +695,6 @@ v<!DOCTYPE html>
     .verse-card.reff-card.active::before { background: var(--gold-light); }
     body.ende .verse-card.reff-card.active::before { background: var(--be-accent-light); }
 
-    /* Title-card variant (perikop) */
     .verse-card.title-card {
       background: transparent;
       border: none;
@@ -714,7 +737,6 @@ v<!DOCTYPE html>
     .verse-line:nth-child(even) { color: rgba(245,240,232,0.72); }
     .verse-card.active .verse-line { color: var(--cream) !important; }
 
-    /* Bibel-specific verse rendering (ayat + nomor inline) */
     .bibel-verse {
       font-size: clamp(15px, 2vw, 20px);
       line-height: 1.95;
@@ -733,7 +755,6 @@ v<!DOCTYPE html>
       letter-spacing: 0.05em;
     }
 
-    /* ── Present button ── */
     .present-btn {
       display: none;
       margin: 26px auto 0;
@@ -766,7 +787,6 @@ v<!DOCTYPE html>
       margin-top: 12px;
     }
 
-    /* ── Status ── */
     .status {
       text-align: center;
       font-style: italic;
@@ -790,7 +810,6 @@ v<!DOCTYPE html>
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Fullscreen ── */
     .fullscreen {
       display: none;
       position: fixed;
@@ -801,6 +820,7 @@ v<!DOCTYPE html>
       align-items: center;
       justify-content: center;
       padding: 40px 80px;
+      transition: background 0.4s;
     }
 
     .fullscreen.open { display: flex; }
@@ -841,7 +861,6 @@ v<!DOCTYPE html>
     .fullscreen.is-reff .fs-line { color: var(--gold-light); font-style: italic; }
     .fullscreen.ende-mode.is-reff .fs-line { color: var(--be-accent-light); }
 
-    /* Bibel fullscreen: blok ayat dengan superscript */
     .fs-bibel-verse {
       font-size: clamp(18px, 2.6vw, 34px);
       line-height: 1.85;
@@ -902,12 +921,10 @@ v<!DOCTYPE html>
 </head>
 <body class="kj">
 
-<!-- Glow orbs (shown only in glow-mode) -->
 <div class="glow-orb glow-orb-1"></div>
 <div class="glow-orb glow-orb-2"></div>
 <div class="glow-orb glow-orb-3"></div>
 
-<!-- Glow toggle -->
 <button class="glow-toggle" id="glowToggle" title="Toggle Glow Mode">
   <div class="glow-toggle-track">
     <div class="glow-toggle-thumb"></div>
@@ -922,7 +939,6 @@ v<!DOCTYPE html>
     <div class="divider"></div>
   </div>
 
-  <!-- Mode Switcher -->
   <div class="book-switcher">
     <button class="book-btn kj active" id="btnKJ" onclick="switchMode('kj')">
       <span class="book-short">KJ</span>
@@ -938,14 +954,12 @@ v<!DOCTYPE html>
     </button>
   </div>
 
-  <!-- Search: song mode (KJ / BE) -->
   <div class="search-area" id="songSearch">
     <span class="label" id="labelBook">KJ No.</span>
     <input class="song-input" id="songInput" type="number" min="1" value="13" />
     <button class="fetch-btn" id="fetchBtn">Tampilkan</button>
   </div>
 
-  <!-- Search: Bibel mode -->
   <div class="bibel-area" id="bibelSearch">
     <div class="lang-toggle">
       <button class="lang-btn active" id="langToba" onclick="switchLang('toba')">Toba</button>
@@ -982,7 +996,6 @@ v<!DOCTYPE html>
   </div>
 </main>
 
-<!-- Fullscreen overlay -->
 <div class="fullscreen" id="fullscreen">
   <div class="fs-book" id="fsBook"></div>
   <div class="fs-verse-num" id="fsVerseNum"></div>
@@ -993,9 +1006,6 @@ v<!DOCTYPE html>
 </div>
 
 <script>
-  // ─────────────────────────────────────────────────────────────────
-  // CONFIG
-  // ─────────────────────────────────────────────────────────────────
   const BOOKS = {
     kj:   { api: '/api/kj/songs/', label: 'KJ', full: 'Kidung Jemaat', inputLabel: 'KJ No.' },
     ende: { api: '/api/be/songs/', label: 'BE', full: 'Buku Ende',     inputLabel: 'BE No.' },
@@ -1003,13 +1013,7 @@ v<!DOCTYPE html>
 
   const BIBEL_API = '/api/bible';
 
-  // 66 kitab Alkitab.
-  // Format: [namaBatak (untuk URL Toba), namaIndonesia (untuk URL TB & display)]
-  // PERHATIAN: untuk endpoint Toba, slug URL pakai nama Indonesia (sesuai contoh:
-  //   .../bib/toba/book/Hakim-hakim/1.json). Jadi `tbName` dipakai untuk SEMUA URL.
-  //   `tobaLabel` hanya untuk display saat bahasa = Toba.
   const BIBLE_BOOKS = [
-    // Perjanjian Lama
     { tobaLabel: '1 Musa',              tbName: 'Kejadian',          abbr: 'Kej'  },
     { tobaLabel: '2 Musa',              tbName: 'Keluaran',          abbr: 'Kel'  },
     { tobaLabel: '3 Musa',              tbName: 'Imamat',            abbr: 'Im'   },
@@ -1049,7 +1053,6 @@ v<!DOCTYPE html>
     { tobaLabel: 'Hagai',               tbName: 'Hagai',             abbr: 'Hag'  },
     { tobaLabel: 'Sakaria',             tbName: 'Zakharia',          abbr: 'Za'   },
     { tobaLabel: 'Maleaki',             tbName: 'Maleakhi',          abbr: 'Mal'  },
-    // Perjanjian Baru
     { tobaLabel: 'Mateus',              tbName: 'Matius',            abbr: 'Mat'  },
     { tobaLabel: 'Markus',              tbName: 'Markus',            abbr: 'Mrk'  },
     { tobaLabel: 'Lukas',               tbName: 'Lukas',             abbr: 'Luk'  },
@@ -1079,23 +1082,16 @@ v<!DOCTYPE html>
     { tobaLabel: 'Pangungkapon',        tbName: 'Wahyu',             abbr: 'Why'  },
   ];
 
-  const VERSES_PER_SLIDE = 3; // saat fullscreen Bibel
+  const VERSES_PER_SLIDE = 3;
 
-  // ─────────────────────────────────────────────────────────────────
-  // STATE
-  // ─────────────────────────────────────────────────────────────────
-  let currentMode  = 'kj';      // 'kj' | 'ende' | 'bibel'
-  let currentLang  = 'toba';    // 'toba' | 'tb' (hanya untuk Bibel)
-  let verses       = [];        // untuk KJ/BE: array bait. Untuk Bibel: array slide-group
+  let currentMode  = 'kj';
+  let currentLang  = 'toba';
+  let verses       = [];
   let currentVerse = 0;
 
-  // Cache & abort
   const cache = new Map();
   let activeController = null;
 
-  // ─────────────────────────────────────────────────────────────────
-  // DOM refs
-  // ─────────────────────────────────────────────────────────────────
   const body         = document.body;
   const songSearch   = document.getElementById('songSearch');
   const bibelSearch  = document.getElementById('bibelSearch');
@@ -1126,9 +1122,6 @@ v<!DOCTYPE html>
   const btnEnde      = document.getElementById('btnEnde');
   const btnBibel     = document.getElementById('btnBibel');
 
-  // ─────────────────────────────────────────────────────────────────
-  // INIT: populate book select
-  // ─────────────────────────────────────────────────────────────────
   function populateBookSelect() {
     bookSelect.innerHTML = '';
     BIBLE_BOOKS.forEach((b, i) => {
@@ -1140,9 +1133,6 @@ v<!DOCTYPE html>
   }
   populateBookSelect();
 
-  // ─────────────────────────────────────────────────────────────────
-  // MODE SWITCHER (KJ / BE / Bibel)
-  // ─────────────────────────────────────────────────────────────────
   function switchMode(mode) {
     if (currentMode === mode) return;
     currentMode = mode;
@@ -1155,7 +1145,6 @@ v<!DOCTYPE html>
     btnEnde.classList.toggle('active',  mode === 'ende');
     btnBibel.classList.toggle('active', mode === 'bibel');
 
-    // Show/hide search areas
     if (mode === 'bibel') {
       songSearch.classList.add('hidden');
       bibelSearch.classList.add('show');
@@ -1165,7 +1154,6 @@ v<!DOCTYPE html>
       labelBook.textContent = BOOKS[mode].inputLabel;
     }
 
-    // Reset display
     resetDisplay();
   }
 
@@ -1186,9 +1174,6 @@ v<!DOCTYPE html>
     currentVerse = 0;
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // STATUS HELPERS
-  // ─────────────────────────────────────────────────────────────────
   function showStatus(msg, isError = false) {
     status.innerHTML = isError ? msg : `<div class="spinner"></div>${msg}`;
     status.className = 'status show' + (isError ? ' error' : '');
@@ -1196,9 +1181,6 @@ v<!DOCTYPE html>
 
   function hideStatus() { status.className = 'status'; }
 
-  // ─────────────────────────────────────────────────────────────────
-  // FETCH WITH CACHE & ABORT
-  // ─────────────────────────────────────────────────────────────────
   async function fetchJSON(url) {
     if (cache.has(url)) return cache.get(url);
     activeController?.abort();
@@ -1210,9 +1192,6 @@ v<!DOCTYPE html>
     return data;
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // SONG MODE (KJ / BE)
-  // ─────────────────────────────────────────────────────────────────
   function buildVerseOrder(raw) {
     const reff      = raw.find(v => v.type === 'reff') || null;
     const verseOnly = raw.filter(v => v.type !== 'reff');
@@ -1237,7 +1216,6 @@ v<!DOCTYPE html>
     try {
       const data = await fetchJSON(book.api + num);
 
-      // Title area
       bookBadge.className = `book-badge ${currentMode}`;
       bookBadge.textContent = book.full;
       songNumber.textContent = `${book.label} ${data.nomorLagu}`;
@@ -1298,16 +1276,10 @@ v<!DOCTYPE html>
     });
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // BIBEL MODE
-  // ─────────────────────────────────────────────────────────────────
-
-  // Parse "1:1-5" / "1:1" / "1" → { chapter, fromV, toV } (null = semua)
   function parseRef(ref) {
     ref = (ref || '').trim();
     if (!ref) return null;
 
-    // "1:1-5" atau "1:1"
     const m1 = ref.match(/^(\d+)\s*:\s*(\d+)(?:\s*[-–]\s*(\d+))?$/);
     if (m1) {
       const ch = +m1[1], from = +m1[2], to = m1[3] ? +m1[3] : from;
@@ -1315,7 +1287,6 @@ v<!DOCTYPE html>
       return { chapter: ch, fromV: from, toV: to };
     }
 
-    // "1" (satu pasal penuh)
     const m2 = ref.match(/^(\d+)$/);
     if (m2) {
       const ch = +m2[1];
@@ -1326,39 +1297,29 @@ v<!DOCTYPE html>
     return null;
   }
 
-  // Buat slide-group: array of { verseRange, perikop, items: [{verse, text}] }
-  // Title verses (perikop) jadi header untuk grup berikutnya.
   function buildBibelSlides(rawVerses, fromV, toV) {
-    // 1) Filter sesuai range (kalau ada). 'title' selalu disertakan karena
-    //    judulnya mengawali bagian — kita filter berdasarkan verse number
-    //    yang relevan.
     const contentVerses = rawVerses.filter(v => v.type === 'content');
     const titleVerses   = rawVerses.filter(v => v.type === 'title');
 
-    // Map: verse number → title text (kalau ada title untuk verse tersebut)
     const titleByVerse = new Map();
     titleVerses.forEach(t => {
       if (!titleByVerse.has(t.verse)) titleByVerse.set(t.verse, []);
       titleByVerse.get(t.verse).push(t.text);
     });
 
-    // Filter content sesuai range
     const filtered = (fromV == null)
       ? contentVerses
       : contentVerses.filter(v => v.verse >= fromV && v.verse <= toV);
 
     if (!filtered.length) return [];
 
-    // 2) Bagi jadi grup VERSES_PER_SLIDE ayat
     const slides = [];
     let buffer = [];
     let bufferPerikop = null;
 
     filtered.forEach((v, idx) => {
-      // Cek apakah ada judul perikop untuk ayat ini
       const titles = titleByVerse.get(v.verse);
       if (titles && titles.length) {
-        // Flush buffer dulu kalau ada
         if (buffer.length) {
           slides.push({ perikop: bufferPerikop, items: buffer });
           buffer = [];
@@ -1394,15 +1355,12 @@ v<!DOCTYPE html>
     resetDisplay();
     showStatus('Memuat ayat...');
 
-    const langDir = currentLang; // 'toba' | 'tb'
-    // Beeble API: /api/v1/passage/{abbr}/{chapter}?ver={toba|tb}
+    const langDir = currentLang;
     const url = `${BIBEL_API}/${book.abbr}/${parsed.chapter}?ver=${langDir}`;
 
     try {
       const raw = await fetchJSON(url);
 
-      // Normalize beeble response → {verses: [{verse, text, type}]}
-      // Beeble: { title, book_number, chapter, verses: [{verse, type, content}] }
       const normalized = (raw.data?.verses || raw.verses || []).map(v => ({
         verse: v.verse,
         text:  v.content || v.text || '',
@@ -1418,7 +1376,6 @@ v<!DOCTYPE html>
       verses = slides;
       currentVerse = 0;
 
-      // Title area
       bookBadge.className = 'book-badge bibel';
       bookBadge.textContent = currentLang === 'toba' ? 'Bibel (Toba)' : 'Alkitab (Indonesia)';
 
@@ -1462,7 +1419,6 @@ v<!DOCTYPE html>
 
       card.appendChild(label);
 
-      // Perikop (judul) kalau ada
       if (slide.perikop) {
         const p = document.createElement('div');
         p.className = 'perikop-text';
@@ -1471,7 +1427,6 @@ v<!DOCTYPE html>
         card.appendChild(p);
       }
 
-      // Ayat-ayat
       slide.items.forEach(item => {
         const div = document.createElement('div');
         div.className = 'bibel-verse';
@@ -1494,13 +1449,11 @@ v<!DOCTYPE html>
     });
   }
 
-  // ─────────────────────────────────────────────────────────────────
-  // FULLSCREEN
-  // ─────────────────────────────────────────────────────────────────
   function openFullscreen(index) {
     currentVerse = index;
     renderFsVerse();
     fullscreen.classList.add('open');
+    fullscreen.classList.toggle('glow-active', glowActive);
   }
 
   function closeFull() { fullscreen.classList.remove('open'); }
@@ -1518,7 +1471,6 @@ v<!DOCTYPE html>
       renderFsSong(v);
     }
 
-    // Sync card highlight
     document.querySelectorAll('.verse-card').forEach(c => {
       c.classList.toggle('active', +c.dataset.index === currentVerse);
     });
@@ -1565,7 +1517,6 @@ v<!DOCTYPE html>
 
     fsLines.innerHTML = '';
 
-    // Perikop dulu kalau ada
     if (slide.perikop) {
       const li = document.createElement('li');
       li.style.cssText = 'font-family:Cinzel,serif;font-size:clamp(12px,1.4vw,18px);letter-spacing:0.2em;color:var(--bb-accent-light);text-transform:uppercase;font-weight:600;margin-bottom:28px;line-height:1.5;text-align:center;';
@@ -1588,14 +1539,10 @@ v<!DOCTYPE html>
   function fsPrevVerse() { if (currentVerse > 0) { currentVerse--; renderFsVerse(); } }
   function fsNextVerse() { if (currentVerse < verses.length - 1) { currentVerse++; renderFsVerse(); } }
 
-  // ─────────────────────────────────────────────────────────────────
-  // EVENTS
-  // ─────────────────────────────────────────────────────────────────
   fetchBtn.addEventListener('click', fetchSong);
   bibelFetchBtn.addEventListener('click', fetchBibel);
   songInput.addEventListener('keydown',  e => { if (e.key === 'Enter') fetchSong(); });
   verseInput.addEventListener('keydown', e => { if (e.key === 'Enter') fetchBibel(); });
-  bookSelect.addEventListener('change',  () => { /* user akan klik Tampilkan */ });
 
   presentBtn.addEventListener('click', () => openFullscreen(currentVerse));
   fsPrev.addEventListener('click', e => { e.stopPropagation(); fsPrevVerse(); });
@@ -1619,9 +1566,6 @@ v<!DOCTYPE html>
     }
   });
 
-  // ─────────────────────────────────────────────────────────────────
-  // GLOW MODE TOGGLE
-  // ─────────────────────────────────────────────────────────────────
   let glowActive = false;
 
   document.getElementById('glowToggle').addEventListener('click', () => {
@@ -1630,16 +1574,6 @@ v<!DOCTYPE html>
     fullscreen.classList.toggle('glow-active', glowActive);
   });
 
-  // Patch openFullscreen to sync glow class
-  const _origOpen = openFullscreen;
-  function openFullscreen(index) {
-    currentVerse = index;
-    renderFsVerse();
-    fullscreen.classList.add('open');
-    fullscreen.classList.toggle('glow-active', glowActive);
-  }
-
-  // Auto-load KJ 13
   fetchSong();
 </script>
 </body>
