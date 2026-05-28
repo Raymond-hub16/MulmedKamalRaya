@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HKBP Kamal Raya — Generator PPTX Ibadah</title>
+<title>Worship Slide CMS — Generator PPTX Ibadah</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
@@ -207,7 +207,6 @@
 <body>
 
 <h1>Worship Slide CMS</h1>
-<h2>Generator PPTX Ibadah HKBP Kamal Raya</h2>
 <p class="subtitle">Prototipe — Checklist Susunan Acara → Generator PPTX otomatis</p>
 
 <div class="layout">
@@ -397,31 +396,71 @@ async function buildSlideDeck() {
 
 async function hydrateItem(item) {
   if (item.type === 'nyanyian') {
-    // Catatan: di prototipe ini kami MOCK karena tidak ada server proxy.
-    // Di produksi (di-host di Vercel Anda), uncomment baris fetch di bawah:
+    // ═══════════════════════════════════════════════════════════
+    // FETCH REAL DATA dari API HKBP (proxy Vercel /api/kj atau /api/be)
     //
-    const url = `/api/${item.book}/songs/${item.nomor}`;
-    const res = await fetch(url);
-    const data = await res.json();
+    // Bentuk response API KJ:
+    //   {
+    //     nomorLagu: "243",
+    //     judul: "KJ 243 Haleluya, Terpujilah",
+    //     lirik: [
+    //       { type: "verse", lines: ["baris 1", "baris 2", ...] },
+    //       { type: "verse", lines: [...] },
+    //       ...
+    //     ],
+    //     ...
+    //   }
     //
-    // Untuk demo, kami buat data dummy:
-    // const data = {
-    //   title: `${item.book.toUpperCase()} ${item.nomor}`,
-    //   lyrics: item.ayat.map(n => ({
-    //     ayat: n,
-    //     teks: `[Lirik ${item.book.toUpperCase()} ${item.nomor} ayat ${n}]\nBaris lagu akan diisi dari API.\nBaris kedua lirik di sini.`
-    //   }))
-    // };
+    // Catatan: TIDAK ada nomor ayat eksplisit — urutan array = nomor ayat.
+    // item.ayat[] = nomor ayat yang user minta (1-based), kita map ke index 0-based.
+    // ═══════════════════════════════════════════════════════════
+
+    if (item.book === 'kj') {
+      const url = `/api/${item.book}/songs/${item.nomor}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status} dari ${url}`);
+      const raw = await res.json();
+
+      // Pilih hanya ayat yang user centang (item.ayat = [1, 2, 3] dst.)
+      // Index array lirik 0-based → ayat nomor 1 = raw.lirik[0]
+      const lyrics = item.ayat
+        .map(ayatNo => {
+          const stanza = raw.lirik?.[ayatNo - 1];
+          if (!stanza) return null;
+          return {
+            ayat: ayatNo,
+            type: stanza.type,                      // 'verse' / 'reff' / 'chorus'
+            teks: (stanza.lines || []).join('\n'),  // gabung baris jadi 1 string
+          };
+        })
+        .filter(Boolean);
+
+      return {
+        ...item,
+        data: {
+          title: raw.judul || `${item.book.toUpperCase()} ${item.nomor}`,
+          lyrics,
+        }
+      };
+    }
+
+    // BE (Buku Ende) — masih dummy, menunggu contoh response dari user
+    const data = {
+      title: `${item.book.toUpperCase()} ${item.nomor}`,
+      lyrics: item.ayat.map(n => ({
+        ayat: n,
+        teks: `[BE ${item.nomor} ayat ${n}]\nMenunggu contoh response API Buku Ende.`
+      }))
+    };
     return { ...item, data };
   }
 
   if (item.type === 'alkitab') {
-    // const url = `/api/bible/${item.kitab}/${item.pasal}/${item.ayat_range}?v=${item.versi}`;
-    // const res = await fetch(url); const data = await res.json();
+    // TODO: fetch dari /api/bible — menunggu contoh response dari user
     const [start, end] = item.ayat_range.split('-').map(n => parseInt(n));
     const verses = [];
     for (let v = start; v <= (end || start); v++) {
-      verses.push({ ayat: v, teks: `[Teks ${item.kitab} ${item.pasal}:${v}] Akan diisi dari API Alkitab.` });
+      verses.push({ ayat: v, teks: `[${item.kitab} ${item.pasal}:${v}] Menunggu contoh response API Alkitab.` });
     }
     return { ...item, data: { perikop: `${item.kitab} pasal ${item.pasal}`, verses } };
   }
@@ -441,6 +480,7 @@ function toSlideSpecs(item) {
         layout: 'nyanyian',
         songTitle: item.data.title,
         ayatNo: v.ayat,
+        stanzaType: v.type || 'verse',   // 'verse' | 'reff' | 'chorus'
         teks: v.teks,
         _src: item.id,
       });
@@ -525,13 +565,19 @@ async function generatePPTX() {
       });
     }
     else if (s.layout === 'nyanyian') {
-      slide.addText(`${s.songTitle} — Ayat ${s.ayatNo}`, {
+      const isReff = s.stanzaType === 'reff' || s.stanzaType === 'chorus';
+      const headerLabel = isReff
+        ? `${s.songTitle} — Reff`
+        : `${s.songTitle} — Ayat ${s.ayatNo}`;
+      slide.addText(headerLabel, {
         x: 0.5, y: 0.4, w: 9, h: 0.6,
-        fontFace: 'Cinzel', fontSize: 20, color: 'C9A84C', align: 'center',
+        fontFace: 'Cinzel', fontSize: 20,
+        color: isReff ? 'E8CB7A' : 'C9A84C', align: 'center',
       });
       slide.addText(s.teks, {
         x: 0.8, y: 1.4, w: 8.4, h: 4.2,
         fontFace: 'Georgia', fontSize: 28,
+        italic: isReff,
         color: 'F5F0E8', align: 'center', valign: 'middle',
       });
     }
