@@ -1,626 +1,872 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Worship Slide CMS — Generator PPTX Ibadah</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>HKBP Slide Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --gold: #c9a84c;
-    --gold-dim: #7a6330;
-    --bg: #0d0a06;
-    --card: #1e1912;
-    --border: rgba(201,168,76,0.25);
-    --text: #f5f0e8;
-    --text-dim: #a89a7e;
-    --green: #6bc485;
-    --red: #c46b6b;
-    --blue: #6b9ec4;
-  }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px;
-  }
-  h1 {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 28px;
-    margin-bottom: 4px;
-  }
-  .subtitle { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
-  .layout { display: grid; grid-template-columns: 1fr 420px; gap: 20px; max-width: 1400px; margin: 0 auto; }
-  @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0b08;
+  --surface:#161310;
+  --card:#1e1a14;
+  --card2:#252018;
+  --gold:#c9a84c;
+  --gold-l:#e8cb7a;
+  --gold-d:#7a6330;
+  --gold-xs:rgba(201,168,76,0.08);
+  --cream:#f5f0e8;
+  --muted:#9a8e78;
+  --border:rgba(201,168,76,0.15);
+  --border2:rgba(201,168,76,0.3);
+  --blue:#6b9ec4;
+  --blue-l:#9dc4e0;
+  --blue-xs:rgba(107,158,196,0.1);
+  --green:#6baa7a;
+  --green-xs:rgba(107,170,122,0.1);
+  --rose:#b87979;
+  --rose-xs:rgba(184,121,121,0.1);
+  --purple:#9b7ec8;
+  --purple-xs:rgba(155,126,200,0.1);
+  --r:8px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh}
 
-  .panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-  }
-  .panel h2 {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 18px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── SIDEBAR ── */
+aside{
+  position:fixed;top:0;left:0;width:260px;height:100vh;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  z-index:10;
+  padding:28px 0 20px;
+}
+.sidebar-logo{padding:0 24px 24px;border-bottom:1px solid var(--border)}
+.sidebar-logo .s1{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase}
+.sidebar-logo .s2{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:0.04em}
+.sidebar-nav{flex:1;overflow-y:auto;padding:16px 0}
+.nav-section{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-d);padding:8px 24px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 24px;cursor:pointer;font-size:13px;color:var(--muted);transition:all .15s}
+.nav-item:hover{color:var(--cream);background:var(--gold-xs)}
+.nav-item.active{color:var(--gold-l);background:var(--gold-xs);border-left:2px solid var(--gold)}
+.nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.nav-count{margin-left:auto;font-size:11px;background:var(--card2);border-radius:4px;padding:2px 7px;color:var(--muted)}
+.sidebar-footer{padding:16px 24px;border-top:1px solid var(--border)}
+.btn-generate{
+  width:100%;padding:12px;
+  background:linear-gradient(135deg,var(--gold-d),var(--gold));
+  color:#1a1000;font-weight:700;font-size:13px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  border:none;border-radius:var(--r);cursor:pointer;
+  font-family:'Cinzel',serif;
+  transition:opacity .2s,transform .1s;
+}
+.btn-generate:hover{opacity:.88}
+.btn-generate:active{transform:scale(.98)}
+.btn-generate:disabled{opacity:.35;cursor:not-allowed}
+.slide-estimate{text-align:center;font-size:11px;color:var(--muted);margin-top:8px}
 
-  .acara-item {
-    display: grid;
-    grid-template-columns: 32px 32px 1fr auto;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    align-items: center;
-    margin-bottom: 6px;
-    transition: background 0.15s;
-  }
-  .acara-item:hover { background: rgba(201,168,76,0.05); }
-  .acara-item.unchecked { opacity: 0.4; }
+/* ── MAIN ── */
+main{margin-left:260px;padding:32px 40px;min-height:100vh}
 
-  .acara-item input[type="checkbox"] {
-    width: 18px; height: 18px;
-    accent-color: var(--gold);
-    cursor: pointer;
-  }
-  .acara-no {
-    font-weight: 600;
-    color: var(--gold-dim);
-    text-align: center;
-    font-size: 13px;
-  }
-  .acara-judul {
-    font-size: 14px;
-    color: var(--text);
-  }
-  .acara-judul small {
-    color: var(--text-dim);
-    display: block;
-    font-size: 11px;
-    margin-top: 2px;
-  }
-  .badge {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .badge.nyanyian { background: rgba(201,168,76,0.15); color: var(--gold); }
-  .badge.alkitab  { background: rgba(107,158,196,0.15); color: var(--blue); }
-  .badge.manual   { background: rgba(196,107,107,0.15); color: var(--red); }
+/* ── PAGE HEADER ── */
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.page-title{font-family:'Cinzel',serif;font-size:22px;font-weight:600;color:var(--cream)}
+.page-sub{font-size:13px;color:var(--muted);margin-top:4px}
+.header-actions{display:flex;gap:10px;align-items:center}
+.btn-sm{background:transparent;border:1px solid var(--border2);color:var(--gold);border-radius:6px;padding:7px 14px;font-size:12px;cursor:pointer;letter-spacing:0.08em;font-family:'Cinzel',serif;text-transform:uppercase;transition:all .15s}
+.btn-sm:hover{background:var(--gold-xs)}
 
-  .expand-area {
-    grid-column: 1 / -1;
-    padding: 8px 10px 12px 74px;
-    display: none;
-  }
-  .acara-item.expanded .expand-area { display: block; }
-  .expand-area textarea, .expand-area input {
-    width: 100%;
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 8px 10px;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 13px;
-    margin-top: 6px;
-  }
-  .expand-area textarea { min-height: 60px; resize: vertical; }
-  .expand-area label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
-  .field-row { display: grid; grid-template-columns: 1fr 80px 100px; gap: 8px; }
+/* ── TEMPLATE ROW ── */
+.tpl-row{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.tpl-card{flex:1;min-width:120px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;transition:all .15s;text-align:center}
+.tpl-card:hover{border-color:var(--border2)}
+.tpl-card.selected{border-color:var(--gold);background:var(--gold-xs)}
+.tpl-name{font-size:12px;font-weight:500;color:var(--cream);margin-top:6px}
+.tpl-preview{height:48px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.15em;text-transform:uppercase}
 
-  .btn {
-    background: var(--gold);
-    color: var(--bg);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.15s;
-    width: 100%;
-    font-size: 14px;
-  }
-  .btn:hover { background: #d9b85c; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn.secondary {
-    background: transparent;
-    color: var(--gold);
-    border: 1px solid var(--gold-dim);
-  }
-  .btn.secondary:hover { background: rgba(201,168,76,0.1); }
+/* ── ACARA ITEMS ── */
+.section-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-d);margin-bottom:14px}
 
-  .button-stack { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.acara-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);margin-bottom:10px;
+  transition:border-color .15s,opacity .2s;
+  overflow:hidden;
+}
+.acara-item.unchecked{opacity:.45}
+.acara-item.has-focus{border-color:var(--border2)}
 
-  .info-box {
-    padding: 12px;
-    background: rgba(107,196,133,0.08);
-    border-left: 3px solid var(--green);
-    border-radius: 4px;
-    font-size: 13px;
-    margin-bottom: 14px;
-  }
-  .info-box.warn { background: rgba(196,158,107,0.08); border-left-color: var(--gold); }
-  .info-box code { background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 3px; font-size: 11px; }
+.item-head{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none}
+.item-num{font-family:'Cinzel',serif;font-size:11px;color:var(--muted);min-width:22px;font-weight:600}
+.item-title{font-size:14px;font-weight:500;color:var(--cream);flex:1}
+.item-meta{font-size:12px;color:var(--muted);margin-top:2px}
 
-  .preview-slide {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
-    font-size: 12px;
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    gap: 10px;
-    align-items: start;
-  }
-  .preview-slide .num {
-    color: var(--gold-dim);
-    font-weight: 600;
-    font-size: 11px;
-  }
-  .preview-slide .layout-name {
-    color: var(--gold);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-  }
-  .preview-slide .text-preview {
-    color: var(--text-dim);
-    font-size: 11px;
-    line-height: 1.4;
-    max-height: 40px;
-    overflow: hidden;
-  }
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500;letter-spacing:0.06em;white-space:nowrap}
+.badge-song  {background:var(--gold-xs);color:var(--gold-l);border:1px solid rgba(201,168,76,0.2)}
+.badge-bible {background:var(--green-xs);color:var(--green);border:1px solid rgba(107,170,122,0.2)}
+.badge-manual{background:var(--rose-xs);color:var(--rose);border:1px solid rgba(184,121,121,0.2)}
+.badge-choir {background:var(--purple-xs);color:var(--purple);border:1px solid rgba(155,126,200,0.2)}
 
-  #log {
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    max-height: 200px;
-    overflow-y: auto;
-    background: var(--bg);
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    margin-top: 10px;
-  }
-  .log-line { padding: 2px 0; }
-  .log-line.ok  { color: var(--green); }
-  .log-line.err { color: var(--red); }
-  .log-line.info { color: var(--blue); }
+.chk{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.chevron{font-size:12px;color:var(--muted);transition:transform .2s;flex-shrink:0}
+.chevron.open{transform:rotate(180deg)}
+
+.item-body{border-top:1px solid var(--border);padding:14px 16px 16px;background:var(--card2);display:none}
+.item-body.open{display:block}
+
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.field-grid.cols3{grid-template-columns:2fr 1fr 1fr}
+.field-grid.cols1{grid-template-columns:1fr}
+.field-group label{display:block;font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px}
+.field-group input,.field-group select,.field-group textarea{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:6px;color:var(--cream);font-family:'DM Sans',sans-serif;
+  font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s;
+}
+.field-group input:focus,.field-group select:focus,.field-group textarea:focus{border-color:var(--gold)}
+.field-group textarea{resize:vertical;min-height:72px;line-height:1.6}
+.field-group select option{background:#1e1a14}
+.api-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);margin-top:8px}
+.api-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── ADD ITEM ── */
+.add-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.btn-add{background:transparent;border:1px dashed var(--border2);color:var(--muted);border-radius:var(--r);padding:9px 16px;font-size:12px;cursor:pointer;letter-spacing:0.06em;transition:all .15s;display:flex;align-items:center;gap:6px}
+.btn-add:hover{color:var(--cream);border-color:var(--gold)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:32px;right:32px;
+  background:var(--card2);border:1px solid var(--border2);
+  border-radius:var(--r);padding:14px 20px;
+  font-size:13px;color:var(--cream);
+  display:flex;align-items:center;gap:10px;
+  transform:translateY(80px);opacity:0;
+  transition:all .3s;z-index:999;max-width:320px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{font-size:18px}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--gold);width:0%;transition:width .3s;z-index:999}
+
+@media(max-width:700px){
+  aside{display:none}
+  main{margin-left:0;padding:20px}
+  .field-grid.cols3,.field-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<h1>Worship Slide CMS</h1>
-<p class="subtitle">Prototipe — Checklist Susunan Acara → Generator PPTX otomatis</p>
+<div class="progress-bar" id="progressBar"></div>
 
-<div class="layout">
+<!-- SIDEBAR -->
+<aside>
+  <div class="sidebar-logo">
+    <div class="s1">HKBP Kamal Raya</div>
+    <div class="s2">Slide Generator — Ibadah</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Susunan Acara</div>
+    <div id="navList"></div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-generate" id="btnGenerate" onclick="generatePPTX()">
+      ⬇ Generate .pptx
+    </button>
+    <div class="slide-estimate" id="slideEst">Pilih item untuk memulai</div>
+  </div>
+</aside>
 
-  <!-- ═══════════════ KIRI: CHECKLIST + FORM ═══════════════ -->
-  <div class="panel">
-    <h2>Susunan Acara — Minggu 25 Agustus 2024</h2>
-    <div class="info-box">
-      Centang item yang akan dimasukkan ke PPT. Klik judul untuk membuka form input (nomor lagu, ayat, atau teks manual). Item yang tidak dicentang <strong>tidak akan ikut di-generate</strong>.
+<!-- MAIN -->
+<main>
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Susunan Acara Ibadah</h1>
+      <p class="page-sub" id="pageDate">Minggu — HKBP Kamal Raya Ressort Kamal Raya</p>
     </div>
-    <div id="acaraList"></div>
+    <div class="header-actions">
+      <input type="text" id="ibadahDate" placeholder="Nama / tanggal ibadah"
+        style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--cream);padding:7px 12px;font-size:13px;width:220px;outline:none"
+        value="Minggu XIII Setelah Trinitatis — 25 Agustus 2024"
+        oninput="document.getElementById('pageDate').textContent=this.value"/>
+      <button class="btn-sm" onclick="addItem('song')">+ Lagu</button>
+      <button class="btn-sm" onclick="addItem('bible')">+ Alkitab</button>
+      <button class="btn-sm" onclick="addItem('manual')">+ Manual</button>
+    </div>
   </div>
 
-  <!-- ═══════════════ KANAN: AKSI + PREVIEW ═══════════════ -->
-  <div>
-    <div class="panel">
-      <h2>Aksi</h2>
-      <div class="button-stack">
-        <button class="btn secondary" onclick="previewSlides()">Pratinjau Slide</button>
-        <button class="btn" onclick="generatePPTX()">Generate PPTX</button>
+  <!-- Template selector -->
+  <div class="section-label">Template Slide</div>
+  <div class="tpl-row" id="tplRow">
+    <div class="tpl-card selected" data-tpl="classic" onclick="selectTemplate(this,'classic')">
+      <div class="tpl-preview" style="background:#1a1205;border:1px solid #7a6330">
+        <span style="color:#c9a84c;font-family:Cinzel,serif;font-size:9px">CLASSIC</span>
       </div>
-      <div id="log"></div>
+      <div class="tpl-name">HKBP Classic</div>
     </div>
-
-    <div class="panel" style="margin-top: 16px;">
-      <h2>Pratinjau Slide</h2>
-      <div id="preview">
-        <p style="color: var(--text-dim); font-size: 13px;">Klik "Pratinjau Slide" untuk melihat slide yang akan dihasilkan.</p>
+    <div class="tpl-card" data-tpl="modern" onclick="selectTemplate(this,'modern')">
+      <div class="tpl-preview" style="background:#0a1520;border:1px solid #1e4060">
+        <span style="color:#6b9ec4;font-family:Cinzel,serif;font-size:9px">MODERN</span>
       </div>
+      <div class="tpl-name">HKBP Modern</div>
+    </div>
+    <div class="tpl-card" data-tpl="white" onclick="selectTemplate(this,'white')">
+      <div class="tpl-preview" style="background:#f8f5ee;border:1px solid #d4c89a">
+        <span style="color:#8a6010;font-family:Cinzel,serif;font-size:9px">PUTIH</span>
+      </div>
+      <div class="tpl-name">Putih Bersih</div>
+    </div>
+    <div class="tpl-card" data-tpl="dark" onclick="selectTemplate(this,'dark')">
+      <div class="tpl-preview" style="background:#050505;border:1px solid #333">
+        <span style="color:#fff;font-family:Cinzel,serif;font-size:9px">GELAP</span>
+      </div>
+      <div class="tpl-name">Gelap Elegan</div>
     </div>
   </div>
+
+  <div class="section-label" style="margin-top:8px">Daftar Acara <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— centang item yang akan dimasukkan ke slide</span></div>
+  <div id="acaraList"></div>
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✓</span>
+  <span id="toastMsg">Berhasil</span>
 </div>
 
 <script>
-// ════════════════════════════════════════════════════════════
-// DATA — Susunan Acara (sesuai gambar Anda: Minggu 25 Agustus 2024)
-// ════════════════════════════════════════════════════════════
-const acara = [
-  { id:'01', no:1,  type:'nyanyian', judul:'Bernyanyi KJ. No. 243 : 1 - 3',  book:'kj', nomor:243, ayat:[1,2,3], selected:true },
-  { id:'02', no:2,  type:'manual',   judul:'Votum',                          isi:'A.XV/A.11 / D.XIII.46', selected:true },
-  { id:'03', no:3,  type:'nyanyian', judul:'Bernyanyi KJ. No. 466a : 1 - 2', book:'kj', nomor:466, ayat:[1,2], selected:true },
-  { id:'04', no:4,  type:'manual',   judul:'Hukum Taurat : I – X',           isi:'', selected:true },
-  { id:'05', no:5,  type:'nyanyian', judul:'Bernyanyi KJ. No. 354 : 1 - 2',  book:'kj', nomor:354, ayat:[1,2], selected:true },
-  { id:'06', no:6,  type:'manual',   judul:'Pengampunan Dosa : B. 2 – C. 12', isi:'', selected:true },
-  { id:'07', no:7,  type:'nyanyian', judul:'Bernyanyi KJ. No. 407 : 1 + 3',  book:'kj', nomor:407, ayat:[1,3], selected:true },
-  { id:'08', no:8,  type:'alkitab',  judul:'Epistel : Mazmur 34 : 16 – 23',  kitab:'Mazmur', pasal:34, ayat_range:'16-23', versi:'tb', selected:true },
-  { id:'09', no:9,  type:'nyanyian', judul:'Bernyanyi KJ. No. 380 : 1 - 2',  book:'kj', nomor:380, ayat:[1,2], selected:true },
-  { id:'10', no:10, type:'manual',   judul:'Pengakuan Iman Rasuli',          isi:'', selected:true },
-  { id:'11', no:11, type:'manual',   judul:'Koor : Naposobulung (Sesi-1)',   isi:'', selected:false },
-  { id:'13', no:13, type:'manual',   judul:'Warta Jemaat',                   isi:'', selected:false },
-  { id:'16', no:16, type:'nyanyian', judul:'Bernyanyi KJ. No. 413 : 1 ..... (PP IA – IB)', book:'kj', nomor:413, ayat:[1], selected:true },
-  { id:'17', no:17, type:'alkitab',  judul:'Khotbah : Efesus 6 : 10 – 20',   kitab:'Efesus', pasal:6, ayat_range:'10-20', versi:'tb', selected:true },
-  { id:'18', no:18, type:'nyanyian', judul:'Bernyanyi KJ. No. 440 : 1 ..... (PP IIA – IIB)', book:'kj', nomor:440, ayat:[1], selected:true },
-  { id:'19', no:19, type:'manual',   judul:'Doa Persembahan – Doa Bapa Kami – Berkat', isi:'', selected:true },
+// ══════════════════════════════════════
+//  TEMPLATES CONFIG
+// ══════════════════════════════════════
+const TEMPLATES = {
+  classic: {
+    bg: { type:'solid', color:'1A1205' },
+    title:  { color:'C9A84C', font:'Times New Roman', size:28, bold:true },
+    body:   { color:'F5F0E8', font:'Times New Roman', size:30 },
+    accent: { color:'7A6330', font:'Times New Roman', size:18 },
+    verseNum:{ color:'C9A84C', font:'Times New Roman', size:22, bold:true },
+    divider:'C9A84C',
+  },
+  modern: {
+    bg: { type:'solid', color:'0A1520' },
+    title:  { color:'6B9EC4', font:'Calibri', size:26, bold:true },
+    body:   { color:'E8F2FA', font:'Calibri', size:30 },
+    accent: { color:'3A6080', font:'Calibri', size:17 },
+    verseNum:{ color:'6B9EC4', font:'Calibri', size:22, bold:true },
+    divider:'6B9EC4',
+  },
+  white: {
+    bg: { type:'solid', color:'F8F5EE' },
+    title:  { color:'6B4E10', font:'Georgia', size:26, bold:true },
+    body:   { color:'1A1008', font:'Georgia', size:30 },
+    accent: { color:'9A7840', font:'Georgia', size:17 },
+    verseNum:{ color:'8A6010', font:'Georgia', size:22, bold:true },
+    divider:'C9A84C',
+  },
+  dark: {
+    bg: { type:'solid', color:'050505' },
+    title:  { color:'E8E8E8', font:'Arial', size:26, bold:true },
+    body:   { color:'FFFFFF', font:'Arial', size:32 },
+    accent: { color:'888888', font:'Arial', size:17 },
+    verseNum:{ color:'CCCCCC', font:'Arial', size:22, bold:true },
+    divider:'444444',
+  },
+};
+
+let selectedTemplate = 'classic';
+
+function selectTemplate(el, key) {
+  document.querySelectorAll('.tpl-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTemplate = key;
+}
+
+// ══════════════════════════════════════
+//  INITIAL ACARA DATA
+// ══════════════════════════════════════
+let acara = [
+  { id:1,  checked:true,  type:'song',   num:'01', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'243',  verseRange:'1-3' },
+  { id:2,  checked:true,  type:'manual', num:'02', label:'Votum',           content:'Dalam nama Allah Bapa, Anak, dan Roh Kudus. Amin.\n\nA.XV/A.11 / D.XIII.46' },
+  { id:3,  checked:true,  type:'song',   num:'03', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'466',  verseRange:'1-2' },
+  { id:4,  checked:false, type:'manual', num:'04', label:'Hukum Taurat',    content:'Hukum Taurat I - X' },
+  { id:5,  checked:true,  type:'song',   num:'05', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'354',  verseRange:'1-2' },
+  { id:6,  checked:false, type:'manual', num:'06', label:'Pengampunan Dosa',content:'B.2 - C.12' },
+  { id:7,  checked:true,  type:'song',   num:'07', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'407',  verseRange:'1+3' },
+  { id:8,  checked:true,  type:'bible',  num:'08', label:'Epistel',          bookIdx:'18',    chapter:'34',  verseRef:'16-23', lang:'tb' },
+  { id:9,  checked:true,  type:'song',   num:'09', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'380',  verseRange:'1-2' },
+  { id:10, checked:false, type:'manual', num:'10', label:'Pengakuan Iman Rasuli', content:'Aku percaya kepada Allah Bapa yang Mahakuasa...' },
+  { id:11, checked:false, type:'choir',  num:'11', label:'Koor Naposobulung', content:'Sesi 1' },
+  { id:12, checked:false, type:'choir',  num:'12', label:'Koor Remaja',      content:'Sesi 2' },
+  { id:13, checked:true,  type:'manual', num:'13', label:'Warta Jemaat',     content:'[Ketik isi warta jemaat di sini]' },
+  { id:14, checked:false, type:'choir',  num:'14', label:'Koor Punguan Ina', content:'Sesi 1' },
+  { id:15, checked:false, type:'choir',  num:'15', label:'Koor Ps. Ama Jeriko', content:'Sesi 2' },
+  { id:16, checked:true,  type:'song',   num:'16', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'413',  verseRange:'1' },
+  { id:17, checked:true,  type:'bible',  num:'17', label:'Khotbah',         bookIdx:'48',    chapter:'6',   verseRef:'10-20', lang:'tb' },
+  { id:18, checked:true,  type:'song',   num:'18', label:'Bernyanyi KJ',    songBook:'kj',   songNo:'440',  verseRange:'1' },
+  { id:19, checked:true,  type:'manual', num:'19', label:'Doa Persembahan & Penutup', content:'Doa Persembahan – Doa Bapa Kami – Berkat' },
 ];
 
-// ════════════════════════════════════════════════════════════
-// LAYER 1 — RENDER CHECKLIST
-// ════════════════════════════════════════════════════════════
-function renderAcara() {
-  const list = document.getElementById('acaraList');
-  list.innerHTML = '';
+let nextId = 20;
 
-  acara.forEach((item, idx) => {
-    const row = document.createElement('div');
-    row.className = 'acara-item' + (item.selected ? '' : ' unchecked');
-    row.dataset.id = item.id;
+const BIBLE_BOOKS = [
+  {i:0,tb:'Kejadian',toba:'1 Musa',abbr:'Kej'},
+  {i:1,tb:'Keluaran',toba:'2 Musa',abbr:'Kel'},
+  {i:2,tb:'Imamat',toba:'3 Musa',abbr:'Im'},
+  {i:3,tb:'Bilangan',toba:'4 Musa',abbr:'Bil'},
+  {i:4,tb:'Ulangan',toba:'5 Musa',abbr:'Ul'},
+  {i:5,tb:'Yosua',toba:'Josua',abbr:'Yos'},
+  {i:6,tb:'Hakim-hakim',toba:'Hakim-hakim',abbr:'Hak'},
+  {i:7,tb:'Rut',toba:'Rut',abbr:'Rut'},
+  {i:8,tb:'1 Samuel',toba:'1 Angka Raja',abbr:'1Sam'},
+  {i:9,tb:'2 Samuel',toba:'2 Angka Raja',abbr:'2Sam'},
+  {i:10,tb:'1 Raja-raja',toba:'3 Angka Raja',abbr:'1Raj'},
+  {i:11,tb:'2 Raja-raja',toba:'4 Angka Raja',abbr:'2Raj'},
+  {i:12,tb:'1 Tawarikh',toba:'5 Angka Raja',abbr:'1Taw'},
+  {i:13,tb:'2 Tawarikh',toba:'6 Angka Raja',abbr:'2Taw'},
+  {i:14,tb:'Ezra',toba:'Esra',abbr:'Ezr'},
+  {i:15,tb:'Nehemia',toba:'Nehemia',abbr:'Neh'},
+  {i:16,tb:'Ester',toba:'Ester',abbr:'Est'},
+  {i:17,tb:'Ayub',toba:'Job',abbr:'Ayb'},
+  {i:18,tb:'Mazmur',toba:'Psalmen',abbr:'Mzm'},
+  {i:19,tb:'Amsal',toba:'Poda',abbr:'Ams'},
+  {i:20,tb:'Pengkhotbah',toba:'Parjamita',abbr:'Pkh'},
+  {i:21,tb:'Kidung Agung',toba:'Ende ni angka Ende',abbr:'Kid'},
+  {i:22,tb:'Yesaya',toba:'Jesaya',abbr:'Yes'},
+  {i:23,tb:'Yeremia',toba:'Jeremia',abbr:'Yer'},
+  {i:24,tb:'Ratapan',toba:'Andung-andung',abbr:'Rat'},
+  {i:25,tb:'Yehezkiel',toba:'Hesekiel',abbr:'Yeh'},
+  {i:26,tb:'Daniel',toba:'Daniel',abbr:'Dan'},
+  {i:27,tb:'Hosea',toba:'Hosea',abbr:'Hos'},
+  {i:28,tb:'Yoel',toba:'Joel',abbr:'Yoel'},
+  {i:29,tb:'Amos',toba:'Amos',abbr:'Amos'},
+  {i:30,tb:'Obaja',toba:'Obaja',abbr:'Ob'},
+  {i:31,tb:'Yunus',toba:'Jona',abbr:'Yun'},
+  {i:32,tb:'Mikha',toba:'Mika',abbr:'Mi'},
+  {i:33,tb:'Nahum',toba:'Nahum',abbr:'Nah'},
+  {i:34,tb:'Habakuk',toba:'Habakuk',abbr:'Hab'},
+  {i:35,tb:'Zefanya',toba:'Zepanya',abbr:'Zef'},
+  {i:36,tb:'Hagai',toba:'Hagai',abbr:'Hag'},
+  {i:37,tb:'Zakharia',toba:'Sakaria',abbr:'Za'},
+  {i:38,tb:'Maleakhi',toba:'Maleaki',abbr:'Mal'},
+  {i:39,tb:'Matius',toba:'Mateus',abbr:'Mat'},
+  {i:40,tb:'Markus',toba:'Markus',abbr:'Mrk'},
+  {i:41,tb:'Lukas',toba:'Lukas',abbr:'Luk'},
+  {i:42,tb:'Yohanes',toba:'Johannes',abbr:'Yoh'},
+  {i:43,tb:'Kisah Para Rasul',toba:'Ulaon ni angka Apostel',abbr:'Kis'},
+  {i:44,tb:'Roma',toba:'Rom',abbr:'Rom'},
+  {i:45,tb:'1 Korintus',toba:'1 Korint',abbr:'1Kor'},
+  {i:46,tb:'2 Korintus',toba:'2 Korint',abbr:'2Kor'},
+  {i:47,tb:'Galatia',toba:'Galatia',abbr:'Gal'},
+  {i:48,tb:'Efesus',toba:'Epesus',abbr:'Ef'},
+  {i:49,tb:'Filipi',toba:'Pilippi',abbr:'Flp'},
+  {i:50,tb:'Kolose',toba:'Kolosse',abbr:'Kol'},
+  {i:51,tb:'1 Tesalonika',toba:'1 Tessalonik',abbr:'1Tes'},
+  {i:52,tb:'2 Tesalonika',toba:'2 Tessalonik',abbr:'2Tes'},
+  {i:53,tb:'1 Timotius',toba:'1 Timoteus',abbr:'1Tim'},
+  {i:54,tb:'2 Timotius',toba:'2 Timoteus',abbr:'2Tim'},
+  {i:55,tb:'Titus',toba:'Titus',abbr:'Tit'},
+  {i:56,tb:'Filemon',toba:'Pilemon',abbr:'Flm'},
+  {i:57,tb:'Ibrani',toba:'Heber',abbr:'Ibr'},
+  {i:58,tb:'Yakobus',toba:'Jakobus',abbr:'Yak'},
+  {i:59,tb:'1 Petrus',toba:'1 Petrus',abbr:'1Pet'},
+  {i:60,tb:'2 Petrus',toba:'2 Petrus',abbr:'2Pet'},
+  {i:61,tb:'1 Yohanes',toba:'1 Johannes',abbr:'1Yoh'},
+  {i:62,tb:'2 Yohanes',toba:'2 Johannes',abbr:'2Yoh'},
+  {i:63,tb:'3 Yohanes',toba:'3 Johannes',abbr:'3Yoh'},
+  {i:64,tb:'Yudas',toba:'Judas',abbr:'Yud'},
+  {i:65,tb:'Wahyu',toba:'Pangungkapon',abbr:'Why'},
+];
 
-    const expandHTML = renderExpand(item);
-
-    row.innerHTML = `
-      <input type="checkbox" ${item.selected ? 'checked' : ''} data-idx="${idx}" />
-      <span class="acara-no">${item.no}</span>
-      <div class="acara-judul" onclick="toggleExpand('${item.id}')" style="cursor:pointer">
-        ${item.judul}
-        ${item.type === 'manual' && !item.isi ? '<small>📝 Klik untuk isi manual</small>' : ''}
-      </div>
-      <span class="badge ${item.type}">${item.type}</span>
-      <div class="expand-area">${expandHTML}</div>
-    `;
-
-    row.querySelector('input[type=checkbox]').addEventListener('change', e => {
-      acara[idx].selected = e.target.checked;
-      row.classList.toggle('unchecked', !e.target.checked);
-    });
-
-    list.appendChild(row);
-  });
+// ══════════════════════════════════════
+//  RENDER UI
+// ══════════════════════════════════════
+function bookOptions(selectedIdx) {
+  return BIBLE_BOOKS.map(b =>
+    `<option value="${b.i}" ${parseInt(selectedIdx)===b.i?'selected':''}>${b.tb}</option>`
+  ).join('');
 }
 
-function renderExpand(item) {
-  if (item.type === 'nyanyian') {
-    return `
-      <div class="field-row">
-        <div>
+function renderItem(item) {
+  const typeColors = {song:'badge-song',bible:'badge-bible',manual:'badge-manual',choir:'badge-choir'};
+  const typeLabels = {song:'🎵 Lagu',bible:'📖 Alkitab',manual:'✏️ Manual',choir:'🎤 Koor'};
+
+  let bodyHtml = '';
+
+  if (item.type === 'song') {
+    bodyHtml = `
+      <div class="field-grid cols3">
+        <div class="field-group">
           <label>Buku</label>
-          <select onchange="updateField('${item.id}','book',this.value)" style="width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px;border-radius:6px;margin-top:6px;">
-            <option value="kj" ${item.book==='kj'?'selected':''}>Kidung Jemaat (KJ)</option>
-            <option value="be" ${item.book==='be'?'selected':''}>Buku Ende (BE)</option>
+          <select onchange="updateItem(${item.id},'songBook',this.value)">
+            <option value="kj" ${item.songBook==='kj'?'selected':''}>Kidung Jemaat</option>
+            <option value="be" ${item.songBook==='be'?'selected':''}>Buku Ende</option>
           </select>
         </div>
-        <div>
-          <label>Nomor</label>
-          <input type="number" value="${item.nomor}" onchange="updateField('${item.id}','nomor',parseInt(this.value))" />
+        <div class="field-group">
+          <label>Nomor Lagu</label>
+          <input type="number" min="1" value="${item.songNo||''}" placeholder="mis. 243" onchange="updateItem(${item.id},'songNo',this.value)">
         </div>
-        <div>
-          <label>Ayat (pisah koma)</label>
-          <input type="text" value="${item.ayat.join(',')}" onchange="updateField('${item.id}','ayat',this.value.split(',').map(n=>parseInt(n.trim())).filter(n=>n))" />
+        <div class="field-group">
+          <label>Bait</label>
+          <input type="text" value="${item.verseRange||''}" placeholder="1-3 atau 1+3" onchange="updateItem(${item.id},'verseRange',this.value)">
         </div>
       </div>
-    `;
+      <div class="api-tag"><span class="api-dot"></span> Lirik diambil otomatis dari API</div>`;
   }
-  if (item.type === 'alkitab') {
-    return `
-      <div class="field-row">
-        <div>
+
+  else if (item.type === 'bible') {
+    bodyHtml = `
+      <div class="field-grid cols3">
+        <div class="field-group">
           <label>Kitab</label>
-          <input type="text" value="${item.kitab}" onchange="updateField('${item.id}','kitab',this.value)" />
+          <select onchange="updateItem(${item.id},'bookIdx',this.value)">${bookOptions(item.bookIdx)}</select>
         </div>
-        <div>
+        <div class="field-group">
           <label>Pasal</label>
-          <input type="number" value="${item.pasal}" onchange="updateField('${item.id}','pasal',parseInt(this.value))" />
+          <input type="number" min="1" value="${item.chapter||1}" onchange="updateItem(${item.id},'chapter',this.value)">
         </div>
-        <div>
-          <label>Ayat (mis. 1-10)</label>
-          <input type="text" value="${item.ayat_range}" onchange="updateField('${item.id}','ayat_range',this.value)" />
+        <div class="field-group">
+          <label>Ayat</label>
+          <input type="text" value="${item.verseRef||''}" placeholder="1-10 atau 5" onchange="updateItem(${item.id},'verseRef',this.value)">
         </div>
       </div>
-    `;
+      <div class="field-grid" style="margin-top:0">
+        <div class="field-group">
+          <label>Bahasa</label>
+          <select onchange="updateItem(${item.id},'lang',this.value)">
+            <option value="tb"   ${item.lang==='tb'?'selected':''}>Indonesia (TB)</option>
+            <option value="toba" ${item.lang==='toba'?'selected':''}>Batak Toba</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Label (opsional)</label>
+          <input type="text" value="${item.label||''}" placeholder="mis. Epistel, Khotbah" onchange="updateItem(${item.id},'label',this.value)">
+        </div>
+      </div>
+      <div class="api-tag"><span class="api-dot"></span> Teks ayat diambil otomatis dari Beeble API</div>`;
   }
-  // type === 'manual'
+
+  else {
+    // manual / choir
+    bodyHtml = `
+      <div class="field-grid cols1">
+        <div class="field-group">
+          <label>Label Slide</label>
+          <input type="text" value="${item.label||''}" onchange="updateItem(${item.id},'label',this.value)">
+        </div>
+      </div>
+      <div class="field-grid cols1">
+        <div class="field-group">
+          <label>Isi Teks</label>
+          <textarea onchange="updateItem(${item.id},'content',this.value)">${item.content||''}</textarea>
+        </div>
+      </div>`;
+  }
+
   return `
-    <label>Isi teks manual</label>
-    <textarea onchange="updateField('${item.id}','isi',this.value)" placeholder="Ketik isi untuk slide ini...">${item.isi || ''}</textarea>
-  `;
-}
-
-function toggleExpand(id) {
-  const el = document.querySelector(`.acara-item[data-id="${id}"]`);
-  el.classList.toggle('expanded');
-}
-
-function updateField(id, field, value) {
-  const item = acara.find(x => x.id === id);
-  if (item) item[field] = value;
-}
-
-// ════════════════════════════════════════════════════════════
-// LOGGING
-// ════════════════════════════════════════════════════════════
-function log(msg, type='info') {
-  const box = document.getElementById('log');
-  const line = document.createElement('div');
-  line.className = 'log-line ' + type;
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-  box.appendChild(line);
-  box.scrollTop = box.scrollHeight;
-}
-function clearLog() { document.getElementById('log').innerHTML = ''; }
-
-// ════════════════════════════════════════════════════════════
-// LAYER 3 — FILTER & MERGE ENGINE
-// ════════════════════════════════════════════════════════════
-async function buildSlideDeck() {
-  // 1. Filter hanya yang dicentang
-  const selected = acara.filter(i => i.selected).sort((a,b) => a.no - b.no);
-  log(`Item dicentang: ${selected.length} / ${acara.length}`, 'info');
-
-  // 2. Hydrate (fetch konten yang butuh API)
-  const hydrated = [];
-  for (const item of selected) {
-    try {
-      const h = await hydrateItem(item);
-      hydrated.push(h);
-      log(`✓ ${item.judul}`, 'ok');
-    } catch (e) {
-      log(`✗ Gagal fetch ${item.judul}: ${e.message}`, 'err');
-      hydrated.push(item); // tetap masukkan, dengan data kosong
-    }
-  }
-
-  // 3. Pecah jadi slide spec
-  const slides = hydrated.flatMap(toSlideSpecs);
-  log(`Total slide yang akan dibuat: ${slides.length}`, 'info');
-  return slides;
-}
-
-async function hydrateItem(item) {
-  if (item.type === 'nyanyian') {
-    // ═══════════════════════════════════════════════════════════
-    // FETCH REAL DATA dari API HKBP (proxy Vercel /api/kj atau /api/be)
-    //
-    // Bentuk response API KJ:
-    //   {
-    //     nomorLagu: "243",
-    //     judul: "KJ 243 Haleluya, Terpujilah",
-    //     lirik: [
-    //       { type: "verse", lines: ["baris 1", "baris 2", ...] },
-    //       { type: "verse", lines: [...] },
-    //       ...
-    //     ],
-    //     ...
-    //   }
-    //
-    // Catatan: TIDAK ada nomor ayat eksplisit — urutan array = nomor ayat.
-    // item.ayat[] = nomor ayat yang user minta (1-based), kita map ke index 0-based.
-    // ═══════════════════════════════════════════════════════════
-
-    if (item.book === 'kj') {
-      const url = `/api/${item.book}/songs/${item.nomor}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status} dari ${url}`);
-      const raw = await res.json();
-
-      // Pilih hanya ayat yang user centang (item.ayat = [1, 2, 3] dst.)
-      // Index array lirik 0-based → ayat nomor 1 = raw.lirik[0]
-      const lyrics = item.ayat
-        .map(ayatNo => {
-          const stanza = raw.lirik?.[ayatNo - 1];
-          if (!stanza) return null;
-          return {
-            ayat: ayatNo,
-            type: stanza.type,                      // 'verse' / 'reff' / 'chorus'
-            teks: (stanza.lines || []).join('\n'),  // gabung baris jadi 1 string
-          };
-        })
-        .filter(Boolean);
-
-      return {
-        ...item,
-        data: {
-          title: raw.judul || `${item.book.toUpperCase()} ${item.nomor}`,
-          lyrics,
-        }
-      };
-    }
-
-    // BE (Buku Ende) — masih dummy, menunggu contoh response dari user
-    const data = {
-      title: `${item.book.toUpperCase()} ${item.nomor}`,
-      lyrics: item.ayat.map(n => ({
-        ayat: n,
-        teks: `[BE ${item.nomor} ayat ${n}]\nMenunggu contoh response API Buku Ende.`
-      }))
-    };
-    return { ...item, data };
-  }
-
-  if (item.type === 'alkitab') {
-    // TODO: fetch dari /api/bible — menunggu contoh response dari user
-    const [start, end] = item.ayat_range.split('-').map(n => parseInt(n));
-    const verses = [];
-    for (let v = start; v <= (end || start); v++) {
-      verses.push({ ayat: v, teks: `[${item.kitab} ${item.pasal}:${v}] Menunggu contoh response API Alkitab.` });
-    }
-    return { ...item, data: { perikop: `${item.kitab} pasal ${item.pasal}`, verses } };
-  }
-
-  return item;
-}
-
-function toSlideSpecs(item) {
-  const slides = [];
-
-  // Slide pembuka — judul acara
-  slides.push({ layout: 'judul', title: item.judul, _src: item.id });
-
-  if (item.type === 'nyanyian' && item.data?.lyrics) {
-    for (const v of item.data.lyrics) {
-      slides.push({
-        layout: 'nyanyian',
-        songTitle: item.data.title,
-        ayatNo: v.ayat,
-        stanzaType: v.type || 'verse',   // 'verse' | 'reff' | 'chorus'
-        teks: v.teks,
-        _src: item.id,
-      });
-    }
-  } else if (item.type === 'alkitab' && item.data?.verses) {
-    const chunks = chunkVerses(item.data.verses, 3);
-    for (const c of chunks) {
-      slides.push({
-        layout: 'alkitab',
-        perikop: item.data.perikop,
-        ref: `${item.kitab} ${item.pasal}:${c[0].ayat}-${c[c.length-1].ayat}`,
-        verses: c,
-        _src: item.id,
-      });
-    }
-  } else if (item.type === 'manual' && item.isi?.trim()) {
-    slides.push({ layout: 'manual', title: item.judul, body: item.isi, _src: item.id });
-  }
-
-  return slides;
-}
-
-function chunkVerses(verses, size) {
-  const out = [];
-  for (let i = 0; i < verses.length; i += size) out.push(verses.slice(i, i + size));
-  return out;
-}
-
-// ════════════════════════════════════════════════════════════
-// PRATINJAU
-// ════════════════════════════════════════════════════════════
-async function previewSlides() {
-  clearLog();
-  log('Memulai pratinjau...', 'info');
-  const slides = await buildSlideDeck();
-  const preview = document.getElementById('preview');
-  preview.innerHTML = slides.map((s, i) => `
-    <div class="preview-slide">
-      <span class="num">${i+1}</span>
-      <div>
-        <div class="layout-name">${s.layout}</div>
-        <div class="text-preview">
-          ${s.layout === 'judul'    ? s.title :
-            s.layout === 'nyanyian' ? `${s.songTitle} — Ayat ${s.ayatNo}<br>${(s.teks||'').replace(/\n/g,' ').slice(0,80)}…` :
-            s.layout === 'alkitab'  ? `${s.ref}<br>${s.verses.map(v=>`${v.ayat}. ${v.teks}`).join(' ').slice(0,80)}…` :
-            s.layout === 'manual'   ? `${s.title}<br>${(s.body||'').slice(0,80)}…` : ''}
+    <div class="acara-item ${item.checked?'':'unchecked'}" id="item-${item.id}">
+      <div class="item-head" onclick="toggleBody(${item.id})">
+        <input class="chk" type="checkbox" ${item.checked?'checked':''} onclick="event.stopPropagation();toggleCheck(${item.id})" />
+        <span class="item-num">${item.num}</span>
+        <div style="flex:1">
+          <div class="item-title">${item.label}</div>
+          <div class="item-meta">${getItemMeta(item)}</div>
         </div>
+        <span class="badge ${typeColors[item.type]||'badge-manual'}">${typeLabels[item.type]||'Manual'}</span>
+        <span class="chevron" id="chev-${item.id}">▾</span>
       </div>
-    </div>
-  `).join('');
-  log('Pratinjau selesai.', 'ok');
+      <div class="item-body" id="body-${item.id}">${bodyHtml}</div>
+    </div>`;
 }
 
-// ════════════════════════════════════════════════════════════
-// LAYER 4 — PPTX ENGINE (PptxGenJS)
-// ════════════════════════════════════════════════════════════
-async function generatePPTX() {
-  clearLog();
-  log('Membangun deck...', 'info');
-  const slides = await buildSlideDeck();
+function getItemMeta(item) {
+  if (item.type==='song')  return `${item.songBook?.toUpperCase()||'KJ'} No. ${item.songNo} · Bait ${item.verseRange}`;
+  if (item.type==='bible') {
+    const bk = BIBLE_BOOKS[parseInt(item.bookIdx)||0];
+    return `${bk?.tb||''} ${item.chapter}:${item.verseRef} · ${item.lang==='toba'?'Batak Toba':'Indonesia'}`;
+  }
+  return item.content?.split('\n')[0]?.slice(0,50)||'—';
+}
 
-  log('Mulai render PPTX dengan PptxGenJS...', 'info');
-  const pres = new PptxGenJS();
-  pres.layout = 'LAYOUT_16x9';
-  pres.title = 'Ibadah HKBP';
+function renderAll() {
+  const list = document.getElementById('acaraList');
+  list.innerHTML = acara.map(renderItem).join('');
+  renderNav();
+  updateEstimate();
+}
 
-  // Slide master — di produksi, ganti dengan path background asli Anda
-  pres.defineSlideMaster({
-    title: 'WORSHIP_MASTER',
-    background: { color: '0D0A06' }, // ganti ke { path: 'bg.png' } untuk image
-    objects: [],
+function renderNav() {
+  const nav = document.getElementById('navList');
+  const checked = acara.filter(a=>a.checked);
+  nav.innerHTML = checked.map(a => {
+    const colors={song:'#c9a84c',bible:'#6baa7a',manual:'#b87979',choir:'#9b7ec8'};
+    return `<div class="nav-item" onclick="scrollTo('item-${a.id}')">
+      <span class="nav-dot" style="background:${colors[a.type]||'#888'}"></span>
+      <span style="flex:1;font-size:12px">${a.num}. ${a.label}</span>
+    </div>`;
+  }).join('');
+}
+
+function updateEstimate() {
+  const checked = acara.filter(a=>a.checked);
+  const est = checked.reduce((s,a)=>{
+    if (a.type==='song') return s+3;
+    if (a.type==='bible') return s+4;
+    return s+1;
+  },0);
+  const btn = document.getElementById('btnGenerate');
+  const est_el = document.getElementById('slideEst');
+  if (checked.length===0) {
+    btn.disabled=true;
+    est_el.textContent='Pilih item untuk memulai';
+  } else {
+    btn.disabled=false;
+    est_el.textContent=`${checked.length} item dipilih · ~${est} slide`;
+  }
+}
+
+// ══════════════════════════════════════
+//  INTERACTIONS
+// ══════════════════════════════════════
+function toggleBody(id) {
+  const body = document.getElementById('body-'+id);
+  const chev = document.getElementById('chev-'+id);
+  if (!body) return;
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+function toggleCheck(id) {
+  const item = acara.find(a=>a.id===id);
+  if (!item) return;
+  item.checked = !item.checked;
+  const el = document.getElementById('item-'+id);
+  el.classList.toggle('unchecked', !item.checked);
+  renderNav();
+  updateEstimate();
+}
+
+function updateItem(id, key, val) {
+  const item = acara.find(a=>a.id===id);
+  if (item) { item[key]=val; renderNav(); updateEstimate(); }
+}
+
+function addItem(type) {
+  const defaults = {
+    song:  {label:'Bernyanyi KJ', songBook:'kj', songNo:'', verseRange:'1'},
+    bible: {label:'Pembacaan Alkitab', bookIdx:'0', chapter:'1', verseRef:'1-5', lang:'tb'},
+    manual:{label:'Item Manual', content:''},
+    choir: {label:'Koor', content:''},
+  };
+  acara.push({ id:nextId++, checked:true, num:String(acara.length+1).padStart(2,'0'), type, ...defaults[type] });
+  renderAll();
+  setTimeout(()=>{
+    const last = document.getElementById('item-'+(nextId-1));
+    if(last) { last.scrollIntoView({behavior:'smooth',block:'center'}); toggleBody(nextId-1); }
+  },50);
+}
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ══════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════
+function showToast(msg, icon='✓', duration=3000) {
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  document.getElementById('toastIcon').textContent=icon;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), duration);
+}
+
+function setProgress(pct) {
+  document.getElementById('progressBar').style.width = pct+'%';
+}
+
+// ══════════════════════════════════════
+//  FETCH HELPERS
+// ══════════════════════════════════════
+const cache = new Map();
+
+async function fetchJSON(url) {
+  if (cache.has(url)) return cache.get(url);
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+  const d = await r.json();
+  cache.set(url, d);
+  return d;
+}
+
+async function fetchSongLyrics(songBook, songNo) {
+  const endpoint = songBook==='kj'
+    ? `/api/kj/songs/${songNo}`
+    : `/api/be/songs/${songNo}`;
+  const data = await fetchJSON(endpoint);
+  return data;
+}
+
+async function fetchBibleVerses(bookIdx, chapter, verseRef, lang) {
+  const book = BIBLE_BOOKS[parseInt(bookIdx)];
+  if (!book) throw new Error('Kitab tidak valid');
+  const url = `/api/bible/${book.abbr}/${chapter}?ver=${lang}`;
+  const raw = await fetchJSON(url);
+  const verses = (raw.data?.verses || raw.verses || []).filter(v=>v.type==='content');
+  // Filter range
+  if (verseRef && verseRef.includes('-')) {
+    const [from,to] = verseRef.split('-').map(Number);
+    return { book, verses: verses.filter(v=>v.verse>=from && v.verse<=to) };
+  } else if (verseRef) {
+    const n = parseInt(verseRef);
+    return { book, verses: verses.filter(v=>v.verse===n) };
+  }
+  return { book, verses };
+}
+
+// ══════════════════════════════════════
+//  PARSE VERSE RANGE "1-3" or "1+3"
+// ══════════════════════════════════════
+function parseBaitRange(lirik, rangeStr) {
+  if (!rangeStr || !lirik) return lirik;
+  const verses = lirik.filter(v=>v.type!=='reff');
+  const reff   = lirik.find(v=>v.type==='reff');
+  let indices = [];
+
+  if (rangeStr.includes('+')) {
+    indices = rangeStr.split('+').map(s=>parseInt(s.trim())-1);
+  } else if (rangeStr.includes('-')) {
+    const [a,b] = rangeStr.split('-').map(Number);
+    for(let i=a-1;i<b&&i<verses.length;i++) indices.push(i);
+  } else {
+    const n = parseInt(rangeStr)-1;
+    if (n>=0) indices=[n];
+  }
+
+  const selected = [];
+  indices.forEach(i => {
+    if (verses[i]) { selected.push(verses[i]); if(reff) selected.push({...reff}); }
+  });
+  // Remove last reff if it duplicates
+  return selected.length ? selected : lirik;
+}
+
+// ══════════════════════════════════════
+//  PPTX HELPERS
+// ══════════════════════════════════════
+const SLIDE_W = 10; // inches widescreen
+const SLIDE_H = 5.625;
+
+function addBg(slide, tpl) {
+  slide.background = { color: tpl.bg.color };
+}
+
+function addTitleSlide(pptx, tpl, title, subtitle, ibadahName) {
+  const s = pptx.addSlide();
+  addBg(s, tpl);
+  // Decorative line
+  s.addShape(pptx.ShapeType.rect, {
+    x:0.5, y:2.4, w:9.0, h:0.02,
+    fill:{color:tpl.divider}, line:{color:tpl.divider}
+  });
+  s.addText(ibadahName || 'HKBP Kamal Raya', {
+    x:0.5, y:0.5, w:9.0, h:0.5,
+    fontSize:14, bold:false, color:tpl.accent.color,
+    fontFace:tpl.accent.font, align:'center', charSpacing:3
+  });
+  s.addText(title.toUpperCase(), {
+    x:0.5, y:1.2, w:9.0, h:1.0,
+    fontSize:tpl.title.size+4, bold:true, color:tpl.title.color,
+    fontFace:tpl.title.font, align:'center',
+  });
+  if (subtitle) {
+    s.addText(subtitle, {
+      x:0.5, y:2.6, w:9.0, h:0.8,
+      fontSize:tpl.accent.size, color:tpl.accent.color,
+      fontFace:tpl.accent.font, align:'center', charSpacing:1
+    });
+  }
+}
+
+function addLyricSlide(pptx, tpl, header, lines, baitLabel) {
+  const s = pptx.addSlide();
+  addBg(s, tpl);
+  // Header bar
+  s.addText(header, {
+    x:0.4, y:0.18, w:9.2, h:0.45,
+    fontSize:tpl.accent.size-2, bold:false, color:tpl.accent.color,
+    fontFace:tpl.accent.font, charSpacing:2
+  });
+  s.addShape(pptx.ShapeType.rect, {
+    x:0.4, y:0.62, w:9.2, h:0.015,
+    fill:{color:tpl.divider}, line:{color:tpl.divider}
+  });
+  if (baitLabel) {
+    s.addText(baitLabel, {
+      x:8.2, y:0.18, w:1.4, h:0.42,
+      fontSize:10, color:tpl.accent.color,
+      fontFace:tpl.accent.font, align:'right'
+    });
+  }
+  // Lyric text
+  const text = lines.join('\n');
+  const lineCount = lines.length;
+  const fontSize = lineCount<=3 ? tpl.body.size+2 : lineCount<=5 ? tpl.body.size : tpl.body.size-4;
+  s.addText(text, {
+    x:0.5, y:0.85, w:9.0, h:4.5,
+    fontSize, color:tpl.body.color, fontFace:tpl.body.font,
+    align:'center', valign:'middle', lineSpacingMultiple:1.4,
+    italic: false
+  });
+}
+
+function addBibleSlide(pptx, tpl, header, verseItems) {
+  const s = pptx.addSlide();
+  addBg(s, tpl);
+  s.addText(header, {
+    x:0.4, y:0.18, w:9.2, h:0.45,
+    fontSize:tpl.accent.size-2, color:tpl.accent.color,
+    fontFace:tpl.accent.font, charSpacing:2
+  });
+  s.addShape(pptx.ShapeType.rect, {
+    x:0.4, y:0.62, w:9.2, h:0.015,
+    fill:{color:tpl.divider}, line:{color:tpl.divider}
   });
 
-  for (const s of slides) {
-    const slide = pres.addSlide({ masterName: 'WORSHIP_MASTER' });
+  const portions = [];
+  verseItems.forEach((v,vi) => {
+    if (vi>0) portions.push({text:' ', options:{fontSize:tpl.body.size}});
+    portions.push({ text: String(v.verse)+' ', options:{ fontSize:tpl.verseNum.size, bold:true, color:tpl.verseNum.color, fontFace:tpl.verseNum.font, superscript:true } });
+    portions.push({ text: (v.content||v.text||''), options:{ fontSize:tpl.body.size, color:tpl.body.color, fontFace:tpl.body.font } });
+  });
 
-    if (s.layout === 'judul') {
-      slide.addText(s.title, {
-        x: 0.5, y: 2.5, w: 9, h: 2,
-        fontFace: 'Cinzel', fontSize: 44, bold: true,
-        color: 'C9A84C', align: 'center', valign: 'middle',
-      });
-    }
-    else if (s.layout === 'nyanyian') {
-      const isReff = s.stanzaType === 'reff' || s.stanzaType === 'chorus';
-      const headerLabel = isReff
-        ? `${s.songTitle} — Reff`
-        : `${s.songTitle} — Ayat ${s.ayatNo}`;
-      slide.addText(headerLabel, {
-        x: 0.5, y: 0.4, w: 9, h: 0.6,
-        fontFace: 'Cinzel', fontSize: 20,
-        color: isReff ? 'E8CB7A' : 'C9A84C', align: 'center',
-      });
-      slide.addText(s.teks, {
-        x: 0.8, y: 1.4, w: 8.4, h: 4.2,
-        fontFace: 'Georgia', fontSize: 28,
-        italic: isReff,
-        color: 'F5F0E8', align: 'center', valign: 'middle',
-      });
-    }
-    else if (s.layout === 'alkitab') {
-      slide.addText(s.ref, {
-        x: 0.5, y: 0.4, w: 9, h: 0.6,
-        fontFace: 'Cinzel', fontSize: 20, color: '9DC4E0', align: 'center',
-      });
-      const body = s.verses.map(v => `${v.ayat}. ${v.teks}`).join('\n\n');
-      slide.addText(body, {
-        x: 0.8, y: 1.3, w: 8.4, h: 4.5,
-        fontFace: 'Georgia', fontSize: 22,
-        color: 'F5F0E8', align: 'left', valign: 'top',
-      });
-    }
-    else if (s.layout === 'manual') {
-      slide.addText(s.title, {
-        x: 0.5, y: 1.5, w: 9, h: 1.2,
-        fontFace: 'Cinzel', fontSize: 36, bold: true,
-        color: 'C9A84C', align: 'center',
-      });
-      if (s.body?.trim()) {
-        slide.addText(s.body, {
-          x: 0.8, y: 3, w: 8.4, h: 3,
-          fontFace: 'Georgia', fontSize: 22,
-          color: 'F5F0E8', align: 'center', valign: 'top',
-        });
-      }
-    }
-  }
-
-  const fileName = `Ibadah_${new Date().toISOString().slice(0,10)}.pptx`;
-  await pres.writeFile({ fileName });
-  log(`✓ File berhasil di-generate: ${fileName}`, 'ok');
-  log(`Total slide: ${slides.length}`, 'info');
+  s.addText(portions, {
+    x:0.5, y:0.85, w:9.0, h:4.5,
+    align:'center', valign:'middle', lineSpacingMultiple:1.5
+  });
 }
 
-// ════════════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════════════
-renderAcara();
-log('Sistem siap. Centang/uncheck item, lalu klik Generate.', 'info');
-</script>
+function addManualSlide(pptx, tpl, title, content) {
+  const s = pptx.addSlide();
+  addBg(s, tpl);
+  s.addText(title.toUpperCase(), {
+    x:0.4, y:0.18, w:9.2, h:0.45,
+    fontSize:tpl.accent.size-2, color:tpl.accent.color,
+    fontFace:tpl.accent.font, charSpacing:2
+  });
+  s.addShape(pptx.ShapeType.rect, {
+    x:0.4, y:0.62, w:9.2, h:0.015,
+    fill:{color:tpl.divider}, line:{color:tpl.divider}
+  });
+  if (content) {
+    s.addText(content, {
+      x:0.5, y:0.9, w:9.0, h:4.4,
+      fontSize:tpl.body.size, color:tpl.body.color,
+      fontFace:tpl.body.font, align:'center', valign:'middle',
+      lineSpacingMultiple:1.5
+    });
+  }
+}
 
+// ══════════════════════════════════════
+//  MAIN GENERATOR
+// ══════════════════════════════════════
+async function generatePPTX() {
+  const selected = acara.filter(a=>a.checked);
+  if (!selected.length) { showToast('Pilih minimal 1 item dulu','⚠️'); return; }
+
+  const btn = document.getElementById('btnGenerate');
+  btn.disabled=true; btn.textContent='⏳ Memproses...';
+  setProgress(5);
+
+  const tpl = TEMPLATES[selectedTemplate];
+  const ibadahName = document.getElementById('ibadahDate').value || 'HKBP Kamal Raya';
+  const pptx = new PptxGenJS();
+  pptx.layout = 'LAYOUT_WIDE';
+  pptx.title  = 'Ibadah ' + ibadahName;
+  pptx.author = 'HKBP Kamal Raya Ressort Kamal Raya';
+
+  // Cover slide
+  addTitleSlide(pptx, tpl, 'Ibadah Minggu', ibadahName, 'HKBP Kamal Raya Ressort Kamal Raya');
+  setProgress(10);
+
+  const total = selected.length;
+  let done = 0;
+  const errors = [];
+
+  for (const item of selected) {
+    try {
+      if (item.type === 'song') {
+        showToast(`Memuat lirik ${item.songBook?.toUpperCase()} ${item.songNo}...`, '🎵', 8000);
+        const data = await fetchSongLyrics(item.songBook, item.songNo);
+        const header = `${data.judul || item.label}`;
+        const baitList = parseBaitRange(data.lirik || [], item.verseRange);
+        let baitNum = 0;
+        for (const bait of baitList) {
+          if (!bait.lines || !bait.lines.length) continue;
+          const isReff = bait.type === 'reff';
+          if (!isReff) baitNum++;
+          const label = isReff ? 'Refrein' : `Bait ${baitNum}`;
+          addLyricSlide(pptx, tpl, header, bait.lines, label);
+        }
+
+      } else if (item.type === 'bible') {
+        showToast(`Memuat ${BIBLE_BOOKS[parseInt(item.bookIdx)]?.tb||''} ${item.chapter}:${item.verseRef}...`, '📖', 8000);
+        const {book, verses} = await fetchBibleVerses(item.bookIdx, item.chapter, item.verseRef, item.lang);
+        const langLabel = item.lang==='toba' ? 'Toba' : 'TB';
+        const header = `${item.label || book.tb} ${item.chapter}:${item.verseRef} (${langLabel})`;
+
+        // Split 3 ayat per slide
+        for (let i=0; i<verses.length; i+=3) {
+          const group = verses.slice(i, i+3);
+          addBibleSlide(pptx, tpl, header, group);
+        }
+
+      } else {
+        // manual / choir
+        addManualSlide(pptx, tpl, item.label, item.content);
+      }
+
+    } catch (err) {
+      errors.push(`${item.num}. ${item.label}: ${err.message}`);
+      // Fallback slide
+      addManualSlide(pptx, tpl, item.label, `[Gagal memuat — ${err.message}]`);
+    }
+
+    done++;
+    setProgress(10 + Math.round((done/total)*85));
+  }
+
+  // Closing slide
+  addTitleSlide(pptx, tpl, 'Tuhan Memberkati', 'Amin', ibadahName);
+  setProgress(97);
+
+  // Generate filename
+  const safeDate = ibadahName.replace(/[^a-zA-Z0-9]/g,'-').slice(0,40);
+  const fname = `HKBP-Slide-${safeDate}.pptx`;
+
+  await pptx.writeFile({ fileName: fname });
+  setProgress(100);
+
+  setTimeout(()=>setProgress(0), 2000);
+  btn.disabled=false; btn.textContent='⬇ Generate .pptx';
+
+  if (errors.length) {
+    showToast(`Selesai dengan ${errors.length} error. Cek koneksi internet.`, '⚠️', 6000);
+    console.warn('Errors:', errors);
+  } else {
+    showToast(`${fname} berhasil didownload!`, '✓', 4000);
+  }
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+renderAll();
+</script>
 </body>
 </html>
